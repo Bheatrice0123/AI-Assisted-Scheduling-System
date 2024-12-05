@@ -379,3 +379,79 @@ th {
 #confirmActionBtn:hover {
     background-color: #be8f19;
 }
+
+
+dialog{ /* Dialog modal pop up after clicking the upload file*/
+    box-sizing: border-box;
+    width:calc(100% - 1em);
+    max-width: 500px;
+    border:1px solid #ddd;
+    border-radius:0.5em;
+    text-align:center;
+    padding:0.8em 1.5em 1em;
+}
+
+dialog h1{
+    margin-bottom:0.5em;
+    color:#111;
+}
+dialog p{
+    margin-bottom:1.25em;
+    color:#424242;
+    padding:0 0.5em;
+    font-size:17px;
+}
+dialog .controls{
+    display: center;
+    grid-template-columns: 1fr 1fr;
+    gap:1em;
+    margin-bottom:0.5em;
+}
+dialog .controls button{
+    padding:0.75em;
+    width: 40%;
+    cursor:pointer;
+    background: #00acee;
+    outline:none;
+    border:1px solid #00acee;
+    border-radius:5px;
+    color:rgb(255, 255, 255);
+    font-size: 0.9em;
+}
+
+.controls button:hover {
+    background-color:#0a7ba8;
+}
+
+
+dialog #upload h1{/* modal upload curriculum data*//* Dialog modal pop up after clicking the upload file. success displaying in the table*/
+    margin-bottom:0.5em;
+    color:#111;
+}
+dialog #upload p{
+    margin-bottom:1.25em;
+    color:#424242;
+    padding:0 0.5em;
+    font-size:17px;
+}
+dialog #upload .controls{
+    display: center;
+    grid-template-columns: 1fr 1fr;
+    gap:1em;
+    margin-bottom:0.5em;
+}
+dialog #upload .controls button{
+    padding:0.75em;
+    width: 40%;
+    cursor:pointer;
+    background: #00acee;
+    outline:none;
+    border:1px solid #00acee;
+    border-radius:5px;
+    color:rgb(255, 255, 255);
+    font-size: 0.9em;
+}
+.controls button:hover {
+    background-color:#0a7ba8;
+}
+
