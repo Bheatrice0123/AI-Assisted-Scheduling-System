@@ -315,7 +315,16 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
             if (validateCSVData(parsedData, selectedProgram, selectedYear)) {
                 // If valid, display the data
                 transformAndDisplayTempCurriculumData(parsedData);
-                alert("File uploaded and displayed successfully!");  // Success message after displaying the data
+                // Upload Dialog
+            const uploadDialog = document.getElementById("upload"); // Success message after displaying the data
+                // Show the Upload Dialog
+            uploadDialog.showModal(); // Display success message for uploading the data
+                // Add an event listener for the "OK" button in the Upload Dialog
+            const uploadOkButton = uploadDialog.querySelector(".ok-btn");
+            uploadOkButton.addEventListener("click", () => {
+            uploadDialog.close(); // Close the Upload Dialog when "OK" is clicked
+    });
+
             }
         };
 
