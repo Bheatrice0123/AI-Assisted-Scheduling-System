@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CCS_ROOMS.css">
+    <title>College of Computing Studies</title>
+</head>
+
+<body>
+    <header>
+        <h1><b>College of Computing Studies</b></h1>
+        <div class="logout-container">
+            <button onclick="window.location.href='SCHEDULER.html'">Logout</button>
+        </div>
+    </header>
+    <main>
+        <div class="logo-container">
+            <img src="CCS_LOGO.png" alt="CCS Logo" class="ccs-logo">
+        </div>
+
+        <!-- Navigation -->
+        <nav>
+            <div>
+                <img src="CCS_BOX_LOGO.jpg" alt="ccs_box_logo" class="ccslogo-image">
+            </div>
+            <div class="links">
+                <b>
+                    <a data-active="course" href="CCS_CURRICULUM.html">Curriculum</a>
+                    <a data-active="course" href="CCS_SECTION.html">Section</a>
+                    <a data-active="rooms" href="CCS_ROOMS.html">Room</a>
+                    <a data-active="faculty" href="CCS_FACULTY.html">Faculty</a>
+                    <a data-active="schedule" href="CCS_SCHED.html">Schedule</a>
+                </b>
+            </div>
+        </nav>
+
+        <!-- Form and Table Section -->
+        <div class="form-and-table-container">
+            <div class="form-container">
+                <form id="courseSectionForm">
+                    <table>
+                        <tr>
+                            <td><label for="campus">Campus:</label></td>
+                            <td>
+                                <select id="campus" name="campus" required>
+                                    <option value="PnC Main Building">PnC Main Building</option>
+                                    <option value="PnC Nursing Building">PnC Nursing Building</option>
+                                    <option value="PnC Bagong Cabuyao Hall">PnC Bagong Cabuyao Hall</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="roomType">Room Type:</label></td>
+                            <td>
+                                <select id="roomType" name="roomType" required>
+                                    <option value="Lecture">Lecture</option>
+                                    <option value="Laboratory">Laboratory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="roomNumber">Room Number:</label></td>
+                            <td><input type="text" id="roomNumber" name="roomNumber" required></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><button type="submit">Add Room</button></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <table id="courseTable">
+                    <thead>
+                        <tr>
+                            <th>Campus</th>
+                            <th>Room Type</th>
+                            <th>Room Number</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="edit-form-container" id="editFormContainer" style="display: none;">
+            <form id="editRoomForm">
+                <h2>Edit Room</h2>
+                <input type="hidden" id="editRoomId" name="editRoomId">
+                <table>
+                    <tr>
+                        <td><label for="editCampus">Campus:</label></td>
+                        <td>
+                            <select id="editCampus" name="editCampus" required>
+                                <option value="PnC Main Building">PnC Main Building</option>
+                                <option value="PnC Nursing Building">PnC Nursing Building</option>
+                                <option value="PnC Bagong Cabuyao City Hall">PnC Bagong Cabuyao Hall</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="editRoomType">Room Type:</label></td>
+                        <td>
+                            <select id="editRoomType" name="roomType" required>
+                                <option value="Lecture">Lecture</option>
+                                <option value="Laboratory">Laboratory</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="editRoomNumber">Room Number:</label></td>
+                        <td><input type="text" id="editRoomNumber" name="roomNumber" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button" id="confirmEdit">Confirm</button>
+                            <button type="button" id="cancelEdit">Cancel</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="overlay" id="overlay" style="display: none;"></div>
+    </main>
+
+    <!-- Modular Firebase App & Firestore imports -->
+    <script type="module" src="CCS_ROOMS.js"></script>
+</body>
+</html>

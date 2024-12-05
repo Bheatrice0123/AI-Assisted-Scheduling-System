@@ -1,0 +1,143 @@
+/* Reset some basic styles */
+body, h1, h2, p, table, th, td {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basic styling for body */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+}
+
+/* Header styling */
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px 20px; /* Adjust padding for more space */
+    display: flex;
+    justify-content: space-between; /* Space between header elements */
+    align-items: center; /* Center items vertically */
+}
+
+header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+/* Button styling */
+.logout-container {
+    margin-left: auto; /* Pushes the button to the right */
+}
+
+.logout-container button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 40px; /* Add space to the right side of the button */
+}
+
+.logout-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Main content styling */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Container for form and table */
+.form-and-table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header within the form and table container */
+.faculty-management-container {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 20px;
+}
+
+.faculty-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.faculty-header h2 {
+    font-size: 22px;
+    color: #333;
+}
+
+/* Table container styling */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.excel-data-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.curriculum-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.curriculum-table th, .curriculum-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.curriculum-table th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.curriculum-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.curriculum-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Button styling */
+.submit-btn-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}

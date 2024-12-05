@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="COED_VIEW_CURRICULUM.css">
+    <title>View Curriculum</title>
+</head>
+<body>
+    <header>
+        <h1><b>College of Education</b></h1>
+        <div class="logout-container">
+            <button onclick="window.location.href='COED_CURRICULUM.html'">Exit</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="form-and-table-container">
+            <div class="faculty-management-container">
+                <div class="faculty-header">
+                    <h2>Uploaded Curriculum Data</h2>
+                </div>
+
+                <!-- Container to display the uploaded data -->
+                <div id="tableContainer" class="table-container"></div>
+
+                <!-- Exit Button -->
+                <div class="submit-btn-container">
+                    <button type="button" class="submit-btn" onclick="window.location.href='COED_CURRICULUM.html'">Exit</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    function displayCurriculumData() {
+        const tableContainer = document.getElementById('tableContainer');
+
+        // Retrieve the uploaded data and selected values from localStorage
+        const { data, program, year, status } = JSON.parse(localStorage.getItem('viewCurriculumData'));
+
+        if (!data) {
+            tableContainer.innerHTML = "<p>No curriculum data found. Please upload a file first.</p>";
+            return;
+        }
+
+        let html = `
+            <p>Program: ${program}</p>
+            <p>Curriculum Year: ${year}</p>
+            <p>Status: ${status}</p>
+            <table class="curriculum-table">
+                <thead>
+                    <tr>
+                        ${data[0].map(header => `<th>${header}</th>`).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.slice(1).map(row => `
+                        <tr>
+                            ${row.map(cell => `<td>${cell}</td>`).join('')}
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+
+        tableContainer.innerHTML = html;
+    }
+
+    // Call the function to display data when the page loads
+    displayCurriculumData();
+    </script>
+</body>
+</html>

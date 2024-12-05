@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="COE_FACULTY.css">
+        <!-- Firebase SDKs -->
+    <!-- Include Firebase SDKs from CDN -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <title>College of Engineering</title>
+</head>
+<body>
+    <header>
+        <h1><b>College of Engineering</b></h1>
+        <div class="logout-container">
+            <button onclick="window.location.href='SCHEDULER.html'">Logout</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="logo-container">
+            <img src="COE_LOGO.png" alt="COE Logo" class="coe-logo">
+        </div>
+
+        <!-- Navigation -->
+        <nav>
+            <div>
+                <img src="CCS_BOX_LOGO.jpg" alt="ccs_box_logo" class="ccslogo-image">
+            </div>
+            <div class="links">
+                <b>
+                    <a data-active="course" href="COE_CURRICULUM.html">Curriculum</a>
+                    <a data-active="sections" href="COE_SECTION.html">Section</a>
+                    <a data-active="rooms" href="COE_ROOMS.html">Room</a>
+                    <a data-active="faculty" href="COE_FACULTY.html">Faculty</a>
+                    <a data-active="schedule" href="COE_SCHED.html">Schedule</a>
+                </b>
+            </div>
+        </nav>
+
+        <!-- Form and Table Section -->
+        <div class="form-and-table-container">
+            <div class="faculty-management-container">
+                <div class="faculty-header">
+                    <h2>CCS - Faculty Management</h2>
+                    <div class="search-and-add">
+                        <input type="text" id="searchFaculty" placeholder="Search Faculty">
+                        <button id="addFacultyBtn">Add Faculty</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="FacultyTable">
+                        <thead>
+                            <tr>
+                                <th>NO. ID</th>
+                                <th>Full Name</th>
+                                <th>Status</th>
+                                <th>Bachelor Degree</th>
+                                <th>Masters</th>
+                                <th>Doctorate</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-container" id="formContainer">
+                <form id="FacultyForm">
+                    <h2>Faculty Information</h2>
+                    <input type="hidden" id="facultyId" name="facultyId">
+                    <table>
+                        <tr>
+                            <td><label for="name">Full Name:</label></td>
+                            <td><input type="text" id="name" name="name" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="status">Status:</label></td>
+                            <td>
+                                <select id="status" name="status" required>
+                                    <option value="Full Time">Full Time</option>
+                                    <option value="Part Time">Part Time</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="bachelor">Bachelor Degree:</label></td>
+                            <td><input type="text" id="bachelor" name="bachelor" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="masters">Masters:</label></td>
+                            <td><input type="text" id="masters" name="masters"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="doctorate">Doctorate:</label></td>
+                            <td><input type="text" id="doctorate" name="doctorate"></td>
+                        </tr>
+                        <!-- Add specialization fields -->
+                        <tr>
+                            <td colspan="2"><label for="specialization">Specialized Courses:</label></td>
+                        </tr>
+                        <tr>
+                            <td><label for="courseCode1">Course Code:</label></td>
+                            <td><input type="text" id="courseCode1" name="courseCode1" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="courseTitle1">Course Title:</label></td>
+                            <td><input type="text" id="courseTitle1" name="courseTitle1" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="courseCode2">Course Code:</label></td>
+                            <td><input type="text" id="courseCode2" name="courseCode2" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="courseTitle2">Course Title:</label></td>
+                            <td><input type="text" id="courseTitle2" name="courseTitle2" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="courseCode3">Course Code:</label></td>
+                            <td><input type="text" id="courseCode3" name="courseCode3" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="courseTitle3">Course Title:</label></td>
+                            <td><input type="text" id="courseTitle3" name="courseTitle3" required></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="submit" id="submitBtn">Submit</button>
+                                <button type="button" id="cancelBtn">Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="COE_FACULTY.js"></script>
+</body>
+</html>

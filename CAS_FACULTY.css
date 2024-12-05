@@ -1,0 +1,300 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    text-align: left;
+    background-color: rgb(224, 220, 220);
+    margin: 0;
+    overflow: hidden;
+}
+
+header {
+    background-color: #821515;
+    color: white;
+    padding: 1px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logout-container {
+    margin-right: 20px; /* Adjusts the space from the right edge */
+}
+
+.logout-container button {
+    background-color: #821515;
+    color: #fff;
+    border:1px solid white; /* Added white border */
+    border-radius: 4px;
+    padding: 10px 40px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.logout-container button:hover {
+    background-color: #691212;
+}
+
+main {
+    position: relative;
+    height: calc(100vh - 40px);
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+/* Logo Container */
+.logo-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.cas-logo {
+    width: 100%;
+    max-height: 80vh;
+    height: auto;
+    border-radius: 50%;
+    opacity: 0.1;
+}
+
+/* Navigation Styles */
+nav {
+    position: absolute;
+    left: 10px;
+    top: 47%;
+    transform: translateY(-50%);
+    width: 275px;
+    background-color: #d6d3d3;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.caslogo-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+nav .links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+nav a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 15px 5px;
+    transition: all 0.3s;
+    margin-top: 10px;
+    text-align: center;
+    width: 95%;
+    color: black;
+    background-color: #fff;
+    border: 2px solid #821515;
+    border-radius: 4px;
+}
+
+nav a:hover,
+nav a.active {
+    background: #691212;
+    color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: -1;
+}
+
+/* Form and Table Container */
+.form-and-table-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 320px;
+    padding: 20px;
+    z-index: 1;
+    position: relative;
+    overflow-x: auto; /* Ensure table is scrollable horizontally */
+}
+
+.faculty-management-container {
+    width: 100%;
+}
+
+.faculty-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.faculty-header h2 {
+    margin: 0;
+}
+
+.search-and-add {
+    display: flex;
+    gap: 15px;
+}
+
+#searchFaculty {
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+}
+
+#addFacultyBtn {
+    background-color: #821515;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+/* Popup Form Container */
+.form-container {
+    position: fixed; /* Fixed position to keep it in view */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center horizontally and vertically */
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px; /* Max width to fit on screen */
+    height: auto; /* Adjust height automatically */
+    max-height: 65vh; /* Max height to fit within the viewport */
+    overflow-y: auto; /* Add scroll if content overflows */
+    display: none; /* Hidden by default */
+    z-index: 2; /* Ensure it is on top of other content */
+}
+
+label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+}
+
+input, select {
+    width: calc(100% - 1px);
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+button[type="button"] {
+    background-color: red;
+}
+
+button[type="submit"]:hover{
+    background-color: rgb(12, 101, 12);
+}
+
+button[type="button"]:hover {
+    background-color: darkred;
+}
+
+/* Table Styles */
+/* Add this to make the table scrollable vertically */
+.table-container {
+    max-height: 570px; /* Adjust as needed */
+    overflow-y: auto;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 2px solid #cfcaca;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+
+/* Update Button Styling */
+.updateBtn {
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.updateBtn:hover {
+    background-color: rgb(12, 101, 12);
+}
+
+/* Delete Button Styling */
+.deleteBtn {
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-top: 5%;
+    cursor: pointer;
+}
+
+.deleteBtn:hover {
+    background-color: darkred;
+}
+
+
+.viewBtn {
+    background-color: blue; /* Change to your preferred color */
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.viewBtn:hover {
+    background-color: darkblue; /* Darker shade on hover */
+}

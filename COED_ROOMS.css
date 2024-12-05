@@ -1,0 +1,302 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: left;
+    background-color: rgb(224, 220, 220);
+    margin: 0;
+    overflow: hidden;
+}
+
+header {
+    background-color: rgb(10, 10, 203);
+    color: white;
+    padding: 1px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logout-container {
+    margin-right: 20px; /* Adjusts the space from the right edge */
+}
+
+.logout-container button {
+    background-color: blue;
+    color: #fff;    
+    border: 1px solid white; /* Added white border */
+    border-radius: 5px;
+    padding: 10px 40px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.logout-container button:hover {
+    background-color: blue;
+}
+
+main {
+    position: relative;
+    height: calc(100vh - 40px);
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.logo-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.coed-logo {
+    width: 100%;
+    max-height: 80vh;
+    height: auto;
+    border-radius: 50%;
+    opacity: 0.1; /* Opacity applied only to the COED logo */
+}
+
+@media (max-width: 1200px) {
+    .logo-container {
+        width: 60vw;
+    }
+
+    .coed-logo {
+        max-height: 70vh;
+    }
+}
+
+@media (max-width: 800px) {
+    .logo-container {
+        width: 70vw;
+    }
+
+    .coed-logo {
+        max-height: 60vh;
+    }
+}
+
+@media (max-width: 500px) {
+    .logo-container {
+        width: 80vw;
+    }
+
+    .coed-logo {
+        max-height: 50vh;
+    }
+}
+
+nav {
+    position: absolute;
+    left: 10px;
+    top: 47%;
+    transform: translateY(-50%);
+    width: 275px;
+    background-color: #d6d3d3;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.coedlogo-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+nav .links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+nav a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 15px 5px;
+    transition: all 0.3s;
+    margin-top: 10px;
+    text-align: center;
+    width: 95%;
+    color: black;
+    background-color: #fff;
+    border: 2px solid #D4A017;
+    border-radius: 4px;
+}
+
+nav a:hover,
+nav a.active {
+    background: blue;
+    color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: -1;
+}
+
+
+/* Form and Table Layout */
+.form-and-table-container {
+    display: flex;
+    justify-content: space-between; /* Adds space between navigation and form */
+    align-items: flex-start;
+    margin-left: 320px; /* Adjusted to create space */
+    padding: 20px;
+    z-index: 1;
+    position: relative;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 370px;
+    margin-right: 20px; /* Added space between form and table */
+}
+
+label {
+    display: block;
+    text-align: left; /* Align text to the left */
+    font-weight: bold;
+}
+
+input, select {
+    width: calc(100% - 1px);
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    width: auto;
+    padding: 5px 10px;
+    background-color: rgb(10, 10, 203);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: blue;
+}
+
+/* For the specific Edit and Delete buttons */
+td button {
+    margin: 2px; /* Add some space between buttons if needed */
+    padding: 5px 15px; /* Adjust padding to reduce button size */
+}
+
+.table-container {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Enables horizontal scrolling */
+    max-height: 800px; /* Adjust the height to your needs */
+    overflow-y: auto; /* Enables vertical scrolling */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 2px solid #cfcaca;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+/* Optional: Add styling for the scroll bar */
+.table-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.edit-form-container {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    left: 50%; /* Center horizontally */
+    top: 50%; /* Center vertically */
+    transform: translate(-50%, -50%); /* Center both vertically and horizontally */
+    z-index: 1000; /* Ensure it's on top of other elements */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Dim background when the pop-up is active */
+.overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Behind the pop-up but above other elements */
+}
+
+/* Ensure buttons inside the pop-up form match the rest of the theme */
+.edit-form-container button {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-form-container button:hover {
+    background-color: rgb(210, 141, 14);
+}
+
+.edit-form-container table select, .edit-form-container table input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #cfcaca;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    box-sizing: border-box;
+}

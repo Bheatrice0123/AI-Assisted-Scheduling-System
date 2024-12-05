@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CHAS_SECTION.css">
+    <title>College of Health and Allied Sciences</title>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1><b>College of Health and Allied Sciences</b></h1>
+        <div class="logout-container">
+            <button onclick="window.location.href='SCHEDULER.html'">Logout</button>
+        </div>
+    </header>
+    
+    <main>
+        <div class="logo-container">
+            <img src="CHAS_LOGO.png" alt="CHAS Logo" class="chas-logo">
+        </div>
+
+        <!-- Navigation -->
+        <nav>
+            <div>
+                <img src="CHAS_BOX_LOGO.jpg" alt="chas_box_logo" class="chaslogo-image">
+            </div>
+            <div class="links">
+                <b>
+                    <a data-active="course" href="CHAS_CURRICULUM.html">Curriculum</a>
+                    <a data-active="sections" href="CHAS_SECTION.html">Section</a>
+                    <a data-active="rooms" href="CHAS_ROOMS.html">Room</a>
+                    <a data-active="faculty" href="CHAS_FACULTY.html">Faculty</a>
+                    <a data-active="schedule" href="CHAS_SCHED.html">Schedule</a>
+                </b>
+            </div>
+        </nav>
+
+        <!-- Form and Table Section -->
+        <div class="form-and-table-container">
+            <div class="form-container">
+                <form id="courseSectionForm">
+                    <table>
+                        <tr>
+                            <td><label for="numStudents">Number of Students:</label></td>
+                            <td><input type="number" id="numStudents" name="numStudents" min="25" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="program">Program:</label></td>
+                            <td>
+                                <select id="programSelect" name="program" required>
+                                    <option value="BSN">BSN</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="yearLevel">Year Level:</label></td>
+                            <td>
+                                <select id="yearLevel" name="yearLevel" required>
+                                    <option value="1st Year">1st Year</option>
+                                    <option value="2nd Year">2nd Year</option>
+                                    <option value="3rd Year">3rd Year</option>
+                                    <option value="4th Year">4th Year</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="submit">Generate Sections</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2>Generated Sections</h2>
+                <table id="courseTable">
+                    <thead>
+                        <tr>
+                            <th>Program</th>
+                            <th>Year Level</th>
+                            <th>Section</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic content will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="CHAS_SECTION.js"></script>
+</body>
+</html>

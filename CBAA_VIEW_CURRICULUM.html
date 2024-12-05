@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CBAA_VIEW_CURRICULUM.css">
+    <title>View Curriculum</title>
+</head>
+<body>
+    <header>
+        <h1><b>College of Business, Accountancy and Administration</b></h1>
+        <div class="logout-container">
+            <button onclick="window.location.href='CBAA_CURRICULUM.html'">Exit</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="form-and-table-container">
+            <div class="faculty-management-container">
+                <div class="faculty-header">
+                    <h2>Uploaded Curriculum Files</h2>
+                </div>
+
+                <!-- Container to display the uploaded files -->
+                <div id="fileContainer" class="file-container"></div>
+
+                <!-- Container to display CSV content -->
+                <div id="excelData" class="excel-data-container"></div>
+
+                <!-- Exit Button -->
+                <div class="submit-btn-container">
+                    <button type="button" class="submit-btn" onclick="window.location.href='CBAA_CURRICULUM.html'">Exit</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1211.0.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, doc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAwdsk_UoNooIKhslUSCi8y1xeBq38sSTA",
+            authDomain: "webscheduler-e7d82.firebaseapp.com",
+            projectId: "webscheduler-e7d82",
+            storageBucket: "webscheduler-e7d82.appspot.com",
+            messagingSenderId: "924855937810",
+            appId: "1:924855937810:web:a082d08353fc348c5d21cb",
+            measurementId: "G-HB7GS4YWVW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // AWS Configuration (keep this secure on your server)
+        AWS.config.update({
+            accessKeyId: 'AKIAYQYUAXPWKQ2P7U7U', // Securely store these values
+            secretAccessKey: 'R4sXtTcXTUCm9yTtIj+mEm1TThT4kB4zt5//yyaP', // Never expose these keys in production
+            region: 'ap-southeast-2'
+        });
+
+        const s3 = new AWS.S3();
+        const bucketName = 'ucurriculum-s3-storage'; // Replace with your bucket name
+
+        function listFiles() {
+            const params = {
+                Bucket: bucketName,
+                MaxKeys: 100 // Adjust as needed
+            };
+
+            s3.listObjectsV2(params, function(err, data) {
+                if (err) {
+                    console.error('Error fetching file list:', err);
+                    document.getElementById('fileContainer').innerHTML = "<p>An error occurred while fetching the file list.</p>";
+                    return;
+                }
+
+                const fileContainer = document.getElementById('fileContainer');
+                fileContainer.innerHTML = '';
+
+                if (data.Contents.length === 0) {
+                    fileContainer.innerHTML = "<p>No files found.</p>";
+                } else {
+                    data.Contents.forEach(file => {
+                        const listItem = document.createElement('div');
+                        const fileName = file.Key;
+                        const fileUrl = `https://${bucketName}.s3.${AWS.config.region}.amazonaws.com/${fileName}`;
+
+                        // Create a link to the file
+                        const link = document.createElement('a');
+                        link.href = fileUrl;
+                        link.textContent = fileName;
+                        link.style.display = 'block'; // Display each link on a new line
+                        link.style.marginBottom = '5px';
+                        link.style.color = '#007bff';
+                        link.style.textDecoration = 'none';
+
+                        // Add hover effect
+                        link.onmouseover = function() {
+                            link.style.textDecoration = 'underline';
+                        };
+                        link.onmouseout = function() {
+                            link.style.textDecoration = 'none';
+                        };
+
+                        // Add click event to handle CSV files
+                        link.onclick = function(event) {
+                            event.preventDefault(); // Prevent the default link action
+                            if (fileName.endsWith('.csv')) {
+                                fetchAndDisplayCSV(fileUrl); // Fetch and display CSV file
+                            } else {
+                                window.open(fileUrl, '_blank'); // Open non-CSV files directly
+                            }
+                        };
+
+                        // Delete button
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.textContent = 'Delete';
+                        deleteBtn.style.marginLeft = '10px';
+                        deleteBtn.onclick = function() {
+                            if (confirm(`Are you sure you want to delete the file ${fileName}? This action cannot be undone.`)) {
+                                deleteFile(fileName);  // Delete from S3 and Firestore
+                            }
+                        };
+
+                        listItem.appendChild(link);
+                        listItem.appendChild(deleteBtn);
+                        fileContainer.appendChild(listItem);
+                    });
+                }
+            });
+        }
+
+        function fetchAndDisplayCSV(fileUrl) {
+            fetch(fileUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text(); // Get the file as text
+                })
+                .then(data => {
+                    const rows = Papa.parse(data, {
+                        header: true,
+                        skipEmptyLines: true
+                    }).data;
+
+                    if (rows.length === 0) {
+                        document.getElementById('excelData').innerHTML = "<p>No data available in this CSV file.</p>";
+                        return;
+                    }
+
+                    let table = '<table class="curriculum-table">';
+                    
+                    // Create table headers
+                    table += '<thead><tr>';
+                    Object.keys(rows[0]).forEach(header => {
+                        table += `<th>${header}</th>`;
+                    });
+                    table += '</tr></thead><tbody>';
+
+                    // Create table rows
+                    rows.forEach(row => {
+                        table += '<tr>';
+                        Object.values(row).forEach(cell => {
+                            table += `<td>${cell}</td>`;
+                        });
+                        table += '</tr>';
+                    });
+
+                    table += '</tbody></table>';
+
+                    document.getElementById('excelData').innerHTML = table; // Display the CSV data
+                })
+                .catch(error => {
+                    console.error('Error fetching or displaying CSV file:', error);
+                    document.getElementById('excelData').innerHTML = "<p>An error occurred while fetching or displaying the CSV file.</p>";
+                });
+        }
+
+        // Function to delete both the file from S3 and the corresponding document in Firestore
+        function deleteFile(fileName) {
+            // Delete from S3
+            const s3Params = {
+                Bucket: bucketName,
+                Key: fileName
+            };
+
+            s3.deleteObject(s3Params, function(err, data) {
+                if (err) {
+                    alert("Error deleting file from S3.");
+                    console.error("Error deleting from S3:", err);
+                } else {
+                    console.log("File deleted successfully from S3.");
+                    alert(`File ${fileName} deleted successfully.`);
+
+                    // After deleting from S3, delete the corresponding curriculum data from Firestore
+                    deleteCurriculumFromFirestore(fileName);
+                }
+            });
+        }
+
+        // Function to delete the corresponding document in Firestore based on the program
+        async function deleteCurriculumFromFirestore(fileName) {
+            // Extract the program from the file name (assuming format like "CBAA-BSCS-CURRICULUM 2023.csv")
+            const parts = fileName.split('-'); // Split the file name by hyphens
+            const program = parts[1]; // "BSCS" is the second part
+            const year = parts[3].replace('.csv', '').trim(); // Extract the year from the file name (after "CURRICULUM")
+
+            // Create the Firestore document ID based on the program and year, e.g., "BSCSCurriculum2023"
+            const curriculumId = `${program}Curriculum${year}`;
+
+            // Reference to the document in the program's subcollection
+            const docRef = doc(db, "mainCurriculum", "mainCurriculum_CBAA", program, curriculumId);
+
+            try {
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    await deleteDoc(docRef);
+                    console.log(`Curriculum data deleted from Firestore for program: ${program}`);
+                    alert(`Curriculum for ${program} (${year}) deleted successfully.`);
+                } else {
+                    console.log(`No matching curriculum data found in Firestore for program: ${program}`);
+                    alert(`No matching curriculum data found for ${program} (${year}).`);
+                }
+            } catch (error) {
+                console.error(`Error deleting curriculum data from Firestore for program: ${program}`, error);
+                alert(`Error deleting curriculum data for ${program} (${year}).`);
+            }
+        }
+
+
+        // Call the function to list files when the page loads
+        document.addEventListener('DOMContentLoaded', listFiles);
+    </script>
+</body>
+</html>

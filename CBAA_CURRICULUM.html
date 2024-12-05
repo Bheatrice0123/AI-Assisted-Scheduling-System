@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CBAA_CURRICULUM.css">
+    <title>College of Business, Accountancy and Administration</title>
+    <!-- Include the AWS SDK and xlsx library via CDN -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1211.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <!-- Add Modular Firebase SDK scripts -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+    <!-- Include PapaParse for CSV Parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    </head>
+<body>
+    <header>
+        <h1><b>College of Business, Accountancy and Administration</b></h1>
+        <div class="logout-container">
+            <button onclick="window.location.href='SCHEDULER.html'">Logout</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="logo-container">
+            <img src="CBAA_LOGO.png" alt="CBAA Logo" class="cbaa-logo">
+        </div>
+
+        <!-- Navigation -->
+        <nav>
+            <div>
+                <img src="CBAA_BOX_LOGO.jpg" alt="cbaa_box_logo" class="cbaalogo-image">
+            </div>
+            <div class="links">
+                <b>
+                    <a data-active="course" href="CBAA_CURRICULUM.html">Curriculum</a>
+                    <a data-active="sections" href="CBAA_SECTION.html">Section</a>
+                    <a data-active="rooms" href="CBAA_ROOMS.html">Room</a>
+                    <a data-active="faculty" href="CBAA_FACULTY.html">Faculty</a>
+                    <a data-active="schedule" href="CBAA_SCHED.html">Schedule</a>
+                </b>
+            </div>
+        </nav>
+
+         <!-- Form and Table Section -->
+         <div class="form-and-table-container">
+            <div class="curriculum-header">
+                <h2>CBAA - Curriculum Management</h2>
+            </div>
+
+            <!-- Upload Form -->
+            <div class="upload-form-container">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="programSelect">Program:</label>
+                        <select id="programSelect" required>
+                            <option value="">Select Program</option>
+                            <option value="BSA">BSA</option>
+                            <option value="BSBA-M">BSBA-M</option>
+                            <option value="BSBA-F">BSBA-F</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="curriculumYear">Curriculum Year:</label>
+                        <input type="number" id="curriculumYear" min="2000" max="2100" required placeholder="Enter Year">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="curriculumStatus">Curriculum Status:</label>
+                        <select id="curriculumStatus" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fileUpload">Upload Curriculum File:</label>
+                        <input type="file" id="fileUpload" accept=".csv" required>
+                    </div>
+
+                    <div class="submit-btn-container">
+                        <button type="submit" id="uploadCurriculum" class="submit-btn">Upload File</button>
+                        <button type="button" id="viewCurriculumBtn" class="view-btn">View Curriculum</button>
+                    </div>
+                </form>
+                <div id="status"></div>
+            </div>
+
+            <!-- Container to display the uploaded data -->
+            <h2>Confirm Curriculum Data</h2>
+            <div id="tableContainer" class="table-container">
+                <table id="dataTable" class="curriculum-table">
+                    <thead>
+                        <tr id="tableHead">
+                            <th>Course Code</th>
+                            <th>Course Title</th>
+                            <th>Type</th>
+                            <th>Set Hours</th>
+                            <th>Program</th>
+                            <th>Year Level</th>
+                            <th>Semester</th>
+                            <th>Batch</th>
+                            <th>GenEd</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Dynamic rows go here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-buttons">
+                <button id="confirmCurriculumBtn" class="confirm-btn">Confirm Curriculum</button>
+                <button id="deleteCurriculumBtn" class="delete-btn">Delete</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Link to the external JavaScript file -->
+    <script type="module" src="CBAA_CURRICULUM.js"></script>
+</body>
+</html>

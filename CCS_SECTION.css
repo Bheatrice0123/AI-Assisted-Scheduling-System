@@ -1,0 +1,229 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: left;
+    background-color: rgb(224, 220, 220);
+    margin: 0;
+    overflow: hidden;
+}
+
+header {
+    background-color:rgb(231, 150, 0);
+    color: white;
+    padding: 1px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logout-container {
+    margin-right: 30px; /* Adjusts the space from the right edge */
+}
+
+.logout-container button {
+    background-color:#F09020;
+    color: #fff;
+    border: 1px solid white; /* Added white border */
+    border-radius: 4px;
+    padding: 10px 40px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.logout-container button:hover {
+    background-color: #D9861A;
+}
+
+main {
+    position: relative;
+    height: calc(100vh - 40px);
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.logo-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.ccs-logo {
+    width: 100%;
+    max-height: 80vh;
+    height: auto;
+    border-radius: 50%;
+    opacity: 0.1; /* Opacity applied only to the CCS logo */
+}
+
+@media (max-width: 1200px) {
+    .logo-container {
+        width: 60vw;
+    }
+
+    .ccs-logo {
+        max-height: 70vh;
+    }
+}
+
+@media (max-width: 800px) {
+    .logo-container {
+        width: 70vw;
+    }
+
+    .ccs-logo {
+        max-height: 60vh;
+    }
+}
+
+@media (max-width: 500px) {
+    .logo-container {
+        width: 80vw;
+    }
+
+    .ccs-logo {
+        max-height: 50vh
+    }
+}
+
+
+nav {
+    position: absolute;
+    left: 10px;
+    top: 47%;
+    transform: translateY(-50%);
+    width: 275px;
+    background-color: #d6d3d3;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.ccslogo-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+nav .links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+nav a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 15px 5px;
+    transition: all 0.3s;
+    margin-top: 10px;
+    text-align: center;
+    width: 95%;
+    color: black;
+    background-color: #fff;
+    border: 2px solid #D4A017;
+    border-radius: 4px;
+}
+
+nav a:hover,
+nav a.active {
+    background: #be8f19;
+    color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: -1;
+}
+
+/* Form and Table Layout */
+.form-and-table-container {
+    display: flex;
+    justify-content: space-between; /* Adds space between navigation and form */
+    align-items: flex-start;
+    margin-left: 320px; /* Adjusted to create space */
+    padding: 20px;
+    z-index: 1;
+    position: relative;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 360px;
+    margin-right: 20px; /* Added space between form and table */
+}
+
+
+label {
+    display: block;
+    text-align: left; /* Align text to the left */
+    font-weight: bold;
+}
+
+input, select {
+    width: calc(100% - 1px);
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #D4A017;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #be8f19;
+}
+
+.table-container {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    overflow-y: auto; /* Allow vertical scrolling */
+    max-height: 490px; /* Set a max height for the table container */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 2px solid #cfcaca;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
