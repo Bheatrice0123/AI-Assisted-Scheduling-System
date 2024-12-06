@@ -18,7 +18,7 @@
     <header>
         <h1><b>College of Education</b></h1>
         <div class="logout-container">
-            <button onclick="window.location.href='https://bheatrice0123.github.io/AI-Assisted-Scheduling-System/index.html'">Logout</button>
+            <button onclick="window.location.href='SCHEDULER.html'">Logout</button>
         </div>
     </header>
 
@@ -36,8 +36,8 @@
                 <b>
                     <a data-active="course" href="COED_CURRICULUM.html">Curriculum</a>
                     <a data-active="sections" href="COED_SECTION.html">Section</a>
-                    <a data-active="faculty" href="COED_FACULTY.html">Faculty</a>
-                    <a data-active="rooms" href="COED_ROOMS.html">Room</a>                 
+                    <a data-active="rooms" href="COED_ROOMS.html">Room</a>
+                    <a data-active="faculty" href="COED_FACULTY.html">Faculty</a>                 
                     <a data-active="schedule" href="COED_SCHED.html">Schedule</a>
                 </b>
             </div>
@@ -118,6 +118,14 @@
             </div>
         </div>
     </main>
+
+    <dialog id="upload"><!--Dialog Modal for btn Upload File Success-->
+        <h1>Curriculum File Upload</h1>
+        <p>File uploaded and displayed successfully!</p>
+        <div class="controls">
+            <button class="ok-btn">OK</button>
+        </div>
+    </dialog>
 
     <!-- Link to the external JavaScript file -->
     <script type="module" src="COED_CURRICULUM.js"></script>
