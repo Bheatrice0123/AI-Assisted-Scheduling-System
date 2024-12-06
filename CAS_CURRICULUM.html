@@ -13,6 +13,7 @@
     <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
     <!-- Include PapaParse for CSV Parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -118,6 +119,26 @@
     <dialog id="upload"><!--Dialog Modal for btn Upload File Success-->
         <h1>Curriculum File Upload</h1>
         <p>File uploaded and displayed successfully!</p>
+        <div class="controls">
+            <button class="ok-btn">OK</button>
+        </div>
+    </dialog>
+
+    <dialog id="delete"><!--Dialog Modal for Delete curriculum-->
+        <div class="icon">
+            <i class="fas fa-exclamation"></i>
+        </div>
+        <h1>Delete File Upload</h1>
+        <p>Are you sure you want to delete the displayed curriculum data? This action cannot be undone.</p>
+        <div class="controls">
+            <button class="ok-btn">YES, DELETE</button>
+            <button class="close-btn">CANCEL</button>
+        </div>
+    </dialog>
+
+    <dialog id="delsuccess"><!--Dialog Modal for Delete curriculum-->
+        <h1>Delete File Upload</h1>
+        <p>Curriculum data deleted successfully.</p>
         <div class="controls">
             <button class="ok-btn">OK</button>
         </div>
