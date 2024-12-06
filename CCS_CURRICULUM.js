@@ -335,26 +335,48 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
 });
 
 // Function to delete data from tempCurriculum_CCS and clear the table
-async function deleteCurriculum() {
-    // Confirmation dialog
-    if (!confirm("Are you sure you want to delete the displayed curriculum data? This action cannot be undone.")) {
-        return; // If user cancels, stop the function
-    }
+async function deleteCurriculum() {// MODALS FOR DELETE CURRICULUM
+    const deleteDialog = document.getElementById("delete");
+    const deleteOkButton = deleteDialog.querySelector(".ok-btn");
+    const cancelButton = deleteDialog.querySelector(".close-btn");
 
-    // Clear data from Firestore (tempCurriculum_CCS)
-    const tempDocRef = doc(db, "tempCurriculum", "tempCurriculum_CCS");
+    // Show the confirmation dialog
+    deleteDialog.showModal();
 
-    try {
-        await updateDoc(tempDocRef, { csvRows: [] }); // Clear the document in Firestore
-        alert("Curriculum data deleted successfully.");
+    // Handle the YES, DELETE button click
+    deleteOkButton.addEventListener("click", async () => {
+        // Close the confirmation dialog
+        deleteDialog.close();
 
-        // Clear the displayed table on the frontend
-        clearTable();
-    } catch (error) {
-        alert("Error deleting curriculum data.");
-        console.error("Error deleting curriculum data from Firestore:", error);
-    }
+        // Clear data from Firestore (tempCurriculum_CCS)
+        const tempDocRef = doc(db, "tempCurriculum", "tempCurriculum_CCS");
+
+        try {
+            await updateDoc(tempDocRef, { csvRows: [] }); // Clear the document in Firestore
+
+            // Show success Dialog //DELETE SUCCESS CURRICULUM
+            const delsuccessDialog = document.getElementById("delsuccess");
+            const delsuccessOkButton = delsuccessDialog.querySelector(".ok-btn");
+            delsuccessDialog.showModal();
+            delsuccessOkButton.addEventListener("click", () => {
+                delsuccessDialog.close();
+            });
+
+            // Clear the displayed table on the frontend
+            clearTable(); // Clear the table on the UI
+        } catch (error) {
+            alert("Error deleting curriculum data.");
+            console.error("Error deleting curriculum data from Firestore:", error);
+        }
+    });
+
+    // Handle the CANCEL button click
+    cancelButton.addEventListener("click", () => {
+        // Close the confirmation dialog without deleting anything
+        deleteDialog.close();
+    });
 }
+
 
 // Add event listener for the "Delete" button
 document.getElementById('deleteCurriculumBtn').addEventListener('click', deleteCurriculum);
