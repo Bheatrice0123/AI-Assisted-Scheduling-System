@@ -521,5 +521,38 @@ dialog#delete .controls .close-btn:hover {
     background-color: #b71c1c; /* Darker red on hover */
 }
 
+dialog #sethours h1{/* Set Hours Modal upload curriculum data*/
+    margin-bottom:0.5em;
+    color:#111;
+}
+dialog #sethours p{
+    margin-bottom:1.25em;
+    color:#424242;
+    padding:0 0.5em;
+    font-size:17px;
+}
+dialog #sethours .controls{
+    display: center;
+    grid-template-columns: 1fr 1fr;
+    gap:1em;
+    margin-bottom:0.5em;
+}
+dialog #sethours .controls button{
+    padding:0.75em;
+    width: 40%;
+    cursor:pointer;
+    background: #00acee;
+    outline:none;
+    border:1px solid #00acee;
+    border-radius:5px;
+    color:rgb(255, 255, 255);
+    font-size: 0.9em;
+}
+.controls button:hover {
+    background-color:#0a7ba8;
+}
+
+
+
 
 
