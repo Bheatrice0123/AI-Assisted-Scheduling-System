@@ -221,10 +221,20 @@ async function confirmAndSaveCurriculum() {
     // Check if any of the Set Hours is 0
     const zeroHourSubjects = curriculumData.filter(row => row['Set Hours'] == 0);
     if (zeroHourSubjects.length > 0) {
-        alert("Some subjects have their Set Hours still set to 0. Please update them before confirming.");
-        return;
+        // Get the sethours dialog element
+        const setHoursDialog = document.getElementById("sethours");
+        const setHoursButton = setHoursDialog.querySelector(".ok-btn");
+    
+        // Show the dialog
+        setHoursDialog.showModal();
+    
+        // Add event listener to the OK button to close the dialog
+        setHoursButton.addEventListener("click", () => {
+            setHoursDialog.close();
+        }, { once: true });
+    
+        return; // Exit the function after showing the dialog
     }
-
     // Check if the curriculum already exists in Firestore
     const curriculumExists = await checkIfCurriculumExists(program, curriculumYear);
     
