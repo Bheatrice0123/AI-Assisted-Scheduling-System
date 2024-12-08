@@ -234,15 +234,6 @@ th {
     font-weight: bold;
 }
 
-/* Targeting the form and table headers */
-.form-container h2,
-.table-container h2 {
-    margin-top: 0; /* Removes any default margin */
-    padding-top: 5px; /* Adjust this value as needed */
-    font-size: 1.5em; /* Optional: Adjust font size for better alignment */
-}
-
-
 /* Optional: Add styling for the scroll bar */
 .table-container::-webkit-scrollbar {
     width: 10px;
@@ -309,4 +300,12 @@ th {
     background-color: #f9f9f9;
     font-size: 14px;
     box-sizing: border-box;
+}
+
+/* Targeting the form and table headers */
+.form-container h2,
+.table-container h2 {
+    margin-top: 0; /* Removes any default margin */
+    padding-top: 5px; /* Adjust this value as needed */
+    font-size: 1.5em; /* Optional: Adjust font size for better alignment */
 }
