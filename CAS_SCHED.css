@@ -89,6 +89,7 @@ main {
     }
 }
 
+/* Navigation Styles */
 nav {
     position: absolute;
     left: 10px;
@@ -133,7 +134,7 @@ nav a {
 
 nav a:hover,
 nav a.active {
-    background: #821515;
+    background: #691212;
     color: white;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
