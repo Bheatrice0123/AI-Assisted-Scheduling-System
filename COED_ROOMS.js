@@ -260,21 +260,62 @@ document.addEventListener('DOMContentLoaded', async function() {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.onclick = async function() {
-
-            const confirmDelete = confirm('Are you sure you want to delete this room?');
-            if (!confirmDelete) {
-                return; // Exit if the user doesn't confirm the deletion
-            }
-
-            // Delete room from Firestore
-            const deleted = await deleteRoomFromFirestore(roomNumber);
-            if (deleted) {
-                // Remove the row from the table only if deletion is successful
-                tableBody.removeChild(newRow);
-
-                // Show a success message after deletion
-                alert('Room deleted successfully.');
-            }
+            // Create the confirmation dialog
+            const deleteRoom = document.createElement('dialog');
+            deleteRoom.innerHTML = `
+                <div class="icon">
+                <i class="fas fa-exclamation"></i>
+                </div>
+                <h1>Confirm Delete Room</h1>
+                <p>Are you sure you want to delete this room?</p>
+                <div class="controls">
+                    <button id="confirmDelete">Yes, Delete</button>
+                    <button id="cancelDelete">Cancel</button>
+                </div>
+            `;
+            document.body.appendChild(deleteRoom);
+        
+            // Show the confirmation dialog
+            deleteRoom.showModal();
+        
+            // Confirm deletion
+            const confirmDeleteButton = document.getElementById('confirmDelete');
+            confirmDeleteButton.onclick = async function() {
+                // Delete room from Firestore
+                const deleted = await deleteRoomFromFirestore(roomNumber);
+                if (deleted) {
+                    // Remove the row from the table only if deletion is successful
+                    tableBody.removeChild(newRow);
+        
+                    // Show success dialog
+                    const delsuccess = document.createElement('dialog');
+                    delsuccess.innerHTML = `
+                        <h1>Confirm Delete Room</h1>
+                        <p>Room deleted successfully.</p>
+                        <div class="controls">
+                            <button class="ok-btn">OK</button>
+                        </div>
+                    `;
+                    document.body.appendChild(delsuccess);
+                    delsuccess.showModal();
+        
+                    // Close the success dialog when OK is clicked
+                    const okButton = delsuccess.querySelector('.ok-btn');
+                    okButton.onclick = function() {
+                        delsuccess.close();
+                        delsuccess.remove(); // Remove the success dialog from the DOM
+                    };
+                }
+                deleteRoom.close();  // Close the confirmation dialog after deletion
+                deleteRoom.remove(); // Remove the confirmation dialog from the DOM
+            };
+        
+            // Cancel deletion
+            const cancelDeleteButton = document.getElementById('cancelDelete');
+            cancelDeleteButton.onclick = function() {
+                deleteRoom.close(); // Close the confirmation dialog without deleting
+                deleteRoom.remove(); // Remove the confirmation dialog from the DOM
+            };
         };
 
         optionsCell.appendChild(editButton);
