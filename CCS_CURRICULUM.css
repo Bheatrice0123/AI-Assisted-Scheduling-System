@@ -380,7 +380,6 @@ th {
     background-color: #be8f19;
 }
 
-
 dialog{ /* Dialog modal pop up after clicking the upload file*/
     box-sizing: border-box;
     width:calc(100% - 1em);
@@ -424,7 +423,7 @@ dialog .controls button{
 }
 
 
-dialog #upload h1{/* modal upload curriculum data*//* Dialog modal pop up after clicking the upload file. success displaying in the table*/
+dialog #upload h1{/* modal upload curriculum data*//* Dialog modal pop up after clicking the upload file*/
     margin-bottom:0.5em;
     color:#111;
 }
@@ -454,6 +453,11 @@ dialog #upload .controls button{
 .controls button:hover {
     background-color:#0a7ba8;
 }
+
+
+
+
+
 
 
 /* Style for the warning icon */
@@ -523,6 +527,59 @@ dialog#delete .controls .close-btn:hover {
 }
 
 
+
+
+dialog #confirm h1{/* modal upload curriculum data*/
+    margin-bottom:0.5em;
+    color:#111;
+}
+dialog #confirm p{
+    margin-bottom:1.25em;
+    color:#424242;
+    padding:0 0.5em;
+    font-size:17px;
+}
+dialog#confirm .controls {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin-bottom: 0.5em;
+}
+
+/* OK button (primary action) */
+dialog#confirm .controls .ok-btn {
+    padding: 0.75em 1.5em;
+    background-color: #00acee; /* Blue background */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+dialog#confirm .controls .ok-btn:hover {
+    background-color: #007bb8; /* Darker blue on hover */
+}
+
+/* Close button (cancel action) */
+dialog#confirm .controls .close-btn {
+    padding: 0.75em 1.5em;
+    background-color: #f23b26; /* Red background */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+dialog#confirm .controls .close-btn:hover {
+    background-color: #b71c1c; /* Darker red on hover */
+}
+
+
+
 dialog #sethours h1{/* Set Hours Modal upload curriculum data*/
     margin-bottom:0.5em;
     color:#111;
@@ -553,4 +610,10 @@ dialog #sethours .controls button{
 .controls button:hover {
     background-color:#0a7ba8;
 }
+
+
+
+
+
+
 
