@@ -93,6 +93,23 @@
         </div>
     </main>
 
+    <dialog id="deleteSection"><!--Modals Delete section in the table-->
+        <h1>Confirm Section Deletion</h1>
+        <p>Are you sure you want to delete section <span id="sectionName"></span>?</p>
+        <div class="controls">
+            <button id="deletingYes" class="ok-btn">YES</button>
+            <button id="deletingCancel" class="close-btn">CANCEL</button>
+        </div>
+    </dialog>
+
+    <dialog id="errorDialog">
+    <h1>Error</h1>
+    <p id="errorMessage"></p>
+    <div class="controls">
+        <button id="errorClose" class="ok-btn">OK</button>
+    </div>
+    </dialog>
+
     <dialog id="sectionConfirmDialog">
         <h1>Confirm Section Generation</h1>
         <p id="confirmMessage"></p>
@@ -110,12 +127,11 @@
         </div>
     </dialog>
 
-    <dialog id="deleteSection"><!--Modals Delete section in the table-->
-        <h1>Confirm Section Deletion</h1>
-        <p>Are you sure you want to delete section <span id="sectionName"></span>?</p>
+    <dialog id="deletionDialog">
+        <h1>Success</h1>
+        <p id="deletionMessage"></p>
         <div class="controls">
-            <button id="confirmYes" class="ok-btn">YES</button>
-            <button id="confirmCancel" class="close-btn">CANCEL</button>
+            <button id="deletionClose" class="ok-btn">OK</button>
         </div>
     </dialog>
     
