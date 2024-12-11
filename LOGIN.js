@@ -9,7 +9,7 @@ function login() {
         errorMessage = document.createElement('div');
         errorMessage.id = 'error-message';
         errorMessage.style.color = 'red';
-        errorMessage.style.marginTop = '-19px';
+        errorMessage.style.marginTop = '-17px';
         errorMessage.style.fontFamily = 'Arial, sans-serif';
         errorMessage.style.fontSize = '17px';
         errorMessage.style.textAlign = 'center';
