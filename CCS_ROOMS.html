@@ -129,7 +129,7 @@
         </div>
         <div class="overlay" id="overlay" style="display: none;"></div>
     </main>
-    
+
     <dialog id="deleteRoom"><!--Dialog Modal for Delete Room-->
         <div class="icon">
             <i class="fas fa-exclamation"></i>
@@ -149,6 +149,25 @@
             <button class="ok-btn">OK</button>
         </div>
     </dialog>
+
+    <dialog id="confirmAddRoom">
+        <h1>Confirm Add Room</h1>
+        <p>Do you want to add this room?</p>
+        <div class="controls">
+            <button class="ok-btn">YES</button>
+            <button class="close-btn">CANCEL</button>
+        </div>
+    </dialog>
+    
+    <dialog id="roomExists">
+        <h1>Room Management</h1>
+        <p>A room with this number, type, and campus already exists.</p>
+        <div class="controls">
+            <button class="ok-btn">OK</button>
+        </div>
+    </dialog>
+    
+    
 
     <!-- Modular Firebase App & Firestore imports -->
     <script type="module" src="CCS_ROOMS.js"></script>

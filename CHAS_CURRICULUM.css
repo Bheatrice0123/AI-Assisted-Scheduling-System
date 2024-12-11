@@ -521,6 +521,7 @@ dialog#delete .controls .close-btn:hover {
     background-color: #b71c1c; /* Darker red on hover */
 }
 
+
 dialog #sethours h1{/* Set Hours Modal upload curriculum data*/
     margin-bottom:0.5em;
     color:#111;
@@ -551,6 +552,4 @@ dialog #sethours .controls button{
 .controls button:hover {
     background-color:#0a7ba8;
 }
-
-
 

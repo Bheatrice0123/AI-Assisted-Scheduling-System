@@ -380,6 +380,8 @@ th {
     background-color: #be8f19;
 }
 
+
+
 dialog{ /* Dialog modal pop up after clicking the upload file*/
     box-sizing: border-box;
     width:calc(100% - 1em);

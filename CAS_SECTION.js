@@ -33,15 +33,83 @@ document.getElementById('courseSectionForm').addEventListener('submit', async fu
     const existingSections = await checkExistingSections(program, yearLevelSelected);
 
     if (existingSections.length > 0) {
-        // If there are already sections, show an error message and stop the process
-        alert(`Error: Sections already exist for ${yearLevelSelected} ${program}. Please delete them before adding new sections.`);
-        return;
+    const errorDialog = document.getElementById('errorDialog');
+    const errorMessage = document.getElementById('errorMessage');
+    const errorClose = document.getElementById('errorClose');
+
+    // Set the error message in the dialog
+    errorMessage.textContent = `Error: Sections already exist for ${yearLevelSelected} ${program}. Please delete them before adding new sections.`;
+
+    // Show the dialog
+    errorDialog.showModal();
+
+    // Close the dialog when the close button is clicked
+    errorClose.onclick = () => {
+        errorDialog.close();
+    };
+
+    // Call the confirmation dialog
+    const proceed = await sectionConfirmDialog(numStudents, program, yearLevelSelected);
+    if (!proceed) {
+        console.log("User canceled section generation.");
+        return; // Stop the process if the user cancels
     }
 
-    // Confirm the section generation action
-    if (!confirm(`Generate sections for ${numStudents} students in ${program}, ${yearLevelSelected}?`)) {
-        return;  // If user cancels, stop the process
+    // Stop the process
+    //return;
+}
+
+function showSuccessDialog(message) {
+    const successDialog = document.getElementById('successDialog');
+    const successMessage = document.getElementById('successMessage');
+    const successClose = document.getElementById('successClose');
+
+    // Set the success message dynamically
+    successMessage.textContent = message;
+
+    // Show the dialog
+    successDialog.showModal();
+
+    // Close the dialog when the close button is clicked
+    successClose.onclick = () => {
+        successDialog.close();
+    };
+}
+
+async function sectionConfirmDialog(numStudents, program, yearLevelSelected) {
+    const sectionConfirmDialog = document.getElementById('sectionConfirmDialog');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmCancel = document.getElementById('confirmCancel');
+
+    // Set the confirmation message dynamically
+    confirmMessage.textContent = `Generate sections for ${numStudents} students in ${program}, ${yearLevelSelected}?`;
+
+    // Show the dialog
+    sectionConfirmDialog.showModal();
+
+    // Return a promise that resolves when the user makes a choice
+    const userConfirmed = await new Promise((resolve) => {
+        confirmYes.onclick = () => {
+            resolve(true); // User confirmed
+            sectionConfirmDialog.close();
+        };
+
+        confirmCancel.onclick = () => {
+            resolve(false); // User canceled
+            sectionConfirmDialog.close();
+        };
+    });
+
+    // If user cancels, stop the process
+    if (!userConfirmed) {
+        return false;
     }
+
+    // Proceed with section generation
+    return true;
+}
+
 
     // Mapping year level and program shorthand
     const yearLevelMapping = {
@@ -116,12 +184,16 @@ document.getElementById('courseSectionForm').addEventListener('submit', async fu
     
         // Wait for all sections to be added
         await Promise.all(sectionPromises);
-        alert('Success: Sections have been generated successfully!');  // Success message
-        updateTable(sectionDetails);
+        showSuccessDialog(`Sections have been successfully generated for ${numStudents} students in ${program}, ${yearLevelSelected}.`);
+        // alert('Success: Sections have been generated successfully!');  // Success message
+        //updateTable(sectionDetails);
+
+        await loadSections();
+
         document.getElementById('courseSectionForm').reset();  // Reset the form after submission
     
     } catch (error) {
-        alert('Error: Unable to generate sections. Please try again.');
+        //alert('Error: Unable to generate sections. Please try again.');
         console.error("Error adding sections: ", error);
     }
 });
@@ -164,9 +236,10 @@ function updateTable(sectionDetails) {
         newRow.insertCell(0).innerText = detail.program;
         newRow.insertCell(1).innerText = detail.year_level;
         newRow.insertCell(2).innerText = detail.section_name;
+        newRow.insertCell(3).innerText = detail.student_count;
 
         // Create action buttons (Delete)
-        const optionsCell = newRow.insertCell(3);
+        const optionsCell = newRow.insertCell(4);
 
         const deleteButton = document.createElement('button');
         deleteButton.innerText = 'Delete';
@@ -182,11 +255,40 @@ function updateTable(sectionDetails) {
     });
 }
 
-// Function to delete a row from the table and Firestore
 async function deleteRow(button, sectionName) {
-    if (!confirm(`Are you sure you want to delete section ${sectionName}?`)) {
-        return;  // If user cancels, stop the deletion
+    const deleteSection = document.getElementById('deleteSection');
+    const sectionNameSpan = document.getElementById('sectionName');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmCancel = document.getElementById('confirmCancel');
+
+    // Set the section name in the dialog
+    sectionNameSpan.textContent = sectionName;
+
+    // Show the dialog
+    deleteSection.showModal();
+
+    // Return a promise that resolves when the user makes a choice
+    const userConfirmed = await new Promise((resolve) => {
+        confirmYes.onclick = () => {
+            resolve(true); // User confirmed
+            deleteSection.close();
+        };
+
+        confirmCancel.onclick = () => {
+            resolve(false); // User canceled
+            deleteSection.close();
+        };
+    });
+
+    // If user cancels, stop the deletion
+    if (!userConfirmed) {
+        return;
     }
+
+    // Proceed with the deletion logic (e.g., delete from Firestore)
+    console.log(`Deleting section: ${sectionName}`);
+    // Add your Firestore deletion logic here
+
 
     const row = button.parentNode.parentNode.parentNode;  // Get the row to remove
 
@@ -196,17 +298,41 @@ async function deleteRow(button, sectionName) {
         
         // Loop through the documents to find the one with the matching section name
         querySnapshot.forEach(async (docSnapshot) => {
+            async function showDeletionSuccessDialog(sectionName) {
+                const deletionDialog = document.getElementById('deletionDialog');
+                const deletionMessage = document.getElementById('deletionMessage');
+                const deletionClose = document.getElementById('deletionClose');
+            
+                // Set the success message dynamically
+                deletionMessage.textContent = `Success: Section ${sectionName} has been deleted.`;
+            
+                // Show the dialog
+                deletionDialog.showModal();
+            
+                // Close the dialog when the close button is clicked
+                return new Promise((resolve) => {
+                    deletionClose.onclick = () => {
+                        deletionDialog.close();
+                        resolve(); // Resolve the promise when the dialog is closed
+                    };
+                });
+            }
+            
+            // Example usage
             if (docSnapshot.data().section_name === sectionName) {
                 // Get a reference to the document and delete it using deleteDoc
                 const docRef = docSnapshot.ref;
                 await deleteDoc(docRef);
                 console.log(`Section ${sectionName} deleted successfully from Firestore.`);
-
+            
                 // Remove the corresponding row from the table
                 row.remove();
-                alert(`Success: Section ${sectionName} has been deleted.`);
+            
+                // Show success dialog
+                await showDeletionSuccessDialog(sectionName);
             }
-        });
+        })
+            
         
     } catch (error) {
         alert(`Error: Unable to delete section ${sectionName}.`);
@@ -227,7 +353,8 @@ async function loadSections() {
             sectionDetails.push({
                 section_name: data.section_name,
                 program: data.program,
-                year_level: data.year_level
+                year_level: data.year_level,
+                student_count: data.student_count
             });
         });
 

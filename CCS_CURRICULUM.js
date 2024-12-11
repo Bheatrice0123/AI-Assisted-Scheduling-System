@@ -235,6 +235,7 @@ async function confirmAndSaveCurriculum() {
     
         return; // Exit the function after showing the dialog
     }
+    
     // Check if the curriculum already exists in Firestore
     const curriculumExists = await checkIfCurriculumExists(program, curriculumYear);
     

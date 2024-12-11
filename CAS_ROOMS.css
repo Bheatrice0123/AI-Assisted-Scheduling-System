@@ -201,6 +201,8 @@ button:hover {
     background-color: #821515;
 }
 
+
+
 /* For the specific Edit and Delete buttons */
 td button {
     margin: 2px; /* Add some space between buttons if needed */
@@ -214,7 +216,7 @@ td button {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow-x: auto; /* Enables horizontal scrolling */
-    max-height: 800px; /* Adjust the height to your needs */
+    max-height: 738px; /* Adjust the height to your needs */
     overflow-y: auto; /* Enables vertical scrolling */
 }
 
@@ -310,7 +312,6 @@ th {
     font-size: 1.5em; /* Optional: Adjust font size for better alignment */
 }
 
-
 /* Style for the warning icon */
 dialog .icon {
     height: 100px;
@@ -370,3 +371,39 @@ dialog .controls button  {
     background-color:#0a7ba8;
 }
 
+
+dialog #confirmAddroom{/*Confirm Add Room*/
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    margin: auto;
+}
+
+dialog #confirmAddroom::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.controls #confirmAddroom {
+    margin-top: 20px;
+}
+
+.controls #confirmAddroom button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.controls #confirmAddroom .ok-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.controls #confirmAddroom.close-btn {
+    background-color: #f44336;
+    color: white;
+}

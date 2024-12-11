@@ -4,7 +4,9 @@ function login() {
 
     if (email === 'ccs@gmail.com' && password === '12345') {
         window.location.href = 'CCS_CURRICULUM.html'; // Redirect to CCS_COURSE.html for DEAN 1
-    } else if (email === 'cas@gmail.com' && password === '12345') {
+    } else if (email === 'dean.cas@pnc.edu.ph' && password === 'casdangalngbayan') {
+        window.location.href = 'CAS_CURRICULUM.html'; // Redirect to CAS_COURSE.html for DEAN 2
+    } else if (email === 'dc.cas@pnc.edu.ph' && password === 'casdangalngbayan') {
         window.location.href = 'CAS_CURRICULUM.html'; // Redirect to CAS_COURSE.html for DEAN 2
     } else if (email === 'coe@gmail.com' && password === '12345') {
         window.location.href = 'COE_CURRICULUM.html'; // Redirect to COE_COURSE.html for DEAN 3

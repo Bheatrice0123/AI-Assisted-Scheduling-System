@@ -232,7 +232,7 @@ button[type="button"]:hover {
 /* Table Styles */
 /* Add this to make the table scrollable vertically */
 .table-container {
-    max-height: 570px; /* Adjust as needed */
+    max-height: 677px; /* Adjust as needed */
     overflow-y: auto;
     width: 100%;
 }

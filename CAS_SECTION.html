@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CAS_SECTION.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <title>College of Arts and Sciences</title>
 </head>
 
@@ -78,6 +79,7 @@
                             <th>Program</th>
                             <th>Year Level</th>
                             <th>Section</th>
+                            <th>Number of Students</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -88,6 +90,53 @@
             </div>
         </div>
     </main>
+
+    <dialog id="deleteSection"><!--Modals Delete section in the table-->
+        <h1>Confirm Section Deletion</h1>
+        <p>Are you sure you want to delete section <span id="sectionName"></span>?</p>
+        <div class="controls">
+            <button id="confirmYes" class="ok-btn">YES</button>
+            <button id="confirmCancel" class="close-btn">CANCEL</button>
+        </div>
+    </dialog>
+
+    <dialog id="errorDialog">
+    <h1>Error</h1>
+    <p id="errorMessage"></p>
+    <div class="controls">
+        <button id="errorClose" class="ok-btn">OK</button>
+    </div>
+    </dialog>
+
+    <dialog id="sectionConfirmDialog">
+        <h1>Confirm Section Generation</h1>
+        <p id="confirmMessage"></p>
+        <div class="controls">
+            <button id="confirmYes" class="ok-btn">YES</button>
+            <button id="confirmCancel" class="close-btn">CANCEL</button>
+        </div>
+    </dialog>
+    
+    
+    <dialog id="successDialog">
+        <h1>Success</h1>
+        <p id="successMessage"></p>
+        <div class="controls">
+            <button id="successClose" class="ok-btn">OK</button>
+        </div>
+    </dialog>
+
+    <dialog id="deletionDialog">
+        <h1>Success</h1>
+        <p id="deletionMessage"></p>
+        <div class="controls">
+            <button id="deletionClose" class="ok-btn">OK</button>
+        </div>
+    </dialog>
+    
+
+    
+    
 
     <script type="module" src="CAS_SECTION.js"></script>
 </body>

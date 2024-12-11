@@ -1,431 +1,966 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
-        <link rel="stylesheet" href="CAS_SCHED.css">
-        <title>College of Arts and Sciences</title>
-    </head>
-    <body>
-        <header>
-            <h1><b>College of Arts and Sciences - Schedule Management</b></h1>
-            <div class="logout-container">
-                <button onclick="window.location.href='SCHEDULER.html'">Logout</button>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="CAS_SCHED.css" />
+    <title>College of Arts and Sciences</title>
+  </head>
+  <body>
+    <header>
+      <h1><b>College of Arts and Sciences - Schedule Management</b></h1>
+      <div class="logout-container">
+        <button onclick="window.location.href='SCHEDULER.html'">Logout</button>
+      </div>
+    </header>
+    <main>
+      <!-- Navigation -->
+      <nav>
+        <div>
+          <img
+            src="CAS_BOX_LOGO.jpg"
+            alt="cas_box_logo"
+            class="caslogo-image"
+          />
+        </div>
+        <div class="links">
+          <b>
+            <a data-active="course" href="CAS_CURRICULUM.html">Curriculum</a>
+            <a data-active="sections" href="CAS_SECTION.html">Section</a>
+            <a data-active="rooms" href="CAS_ROOMS.html">Room</a>
+            <a data-active="facukty" href="CAS_FACULTY.html">Faculty</a>
+            <a data-active="schedule" href="CAS_SCHED.html">Schedule</a>
+          </b>
+        </div>
+      </nav>
+
+      <!-- Form Section -->
+      <div class="content-section">
+        <div class="form-section">
+          <form id="ScheduleForm">
+            <table>
+              <tr>
+                <td><label for="academicYear">Academic Year:</label></td>
+                <td>
+                  <select id="startYear" name="startYear" required>
+                    <option value="">Select Start Year</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                  </select>
+                  -
+                  <select id="endYear" name="endYear" required>
+                    <option value="">Select End Year</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="semester">Semester:</label></td>
+                <td>
+                  <select id="semester" name="semester" required>
+                    <option value="">Select Semester</option>
+                    <option value="1st Semester">1st Semester</option>
+                    <option value="2nd Semester">2nd Semester</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Generate Schedule Button -->
+            <div class="generatebtn">
+              <button type="submit" id="generateBtn">Generate Schedule</button>
+              <p id="conflictMessage"></p>
             </div>
-        </header>
-        <main>
-            <!-- Navigation -->
-            <nav>
-                <div>
-                    <img src="CAS_BOX_LOGO.jpg" alt="cas_box_logo" class="caslogo-image">
-                </div>
-                <div class="links">
-                    <b> 
-                        <a data-active="course" href="CAS_CURRICULUM.html">Curriculum</a>
-                        <a data-active="sections" href="CAS_SECTION.html">Section</a>
-                        <a data-active="faculty" href="CAS_FACULTY.html">Faculty</a>
-                        <a data-active="rooms" href="CAS_ROOMS.html">Room</a>                 
-                        <a data-active="schedule" href="CAS_SCHED.html">Schedule</a>
-                    </b>
-                </div>
-            </nav>
+          </form>
+        </div>
 
-            <!-- Form Section -->
-            <div class="content-section">
-                <div class="form-section">
-                    <form id="ScheduleForm">
-                        <table>
-                            <tr>
-                                <td><label for="academicYear">Academic Year:</label></td>
-                                <td>
-                                    <select id="startYear" name="startYear" required>
-                                        <option value="">Select Start Year</option>
-                                        <option value="2024">2024</option>
-                                        <option value="2025">2025</option>
-                                        <option value="2026">2026</option>
-                                        <option value="2027">2027</option>
-                                    </select>
-                                    -
-                                    <select id="endYear" name="endYear" required>
-                                        <option value="">Select End Year</option>
-                                        <option value="2025">2025</option>
-                                        <option value="2026">2026</option>
-                                        <option value="2027">2027</option>
-                                        <option value="2028">2028</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="semester">Semester:</label></td>
-                                <td>
-                                    <select id="semester" name="semester" required>
-                                        <option value="">Select Semester</option>
-                                        <option value="1st Semester">1st Semester</option>
-                                        <option value="2nd Semester">2nd Semester</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
+        <!-- Schedule Table -->
+        <div class="table-section">
+          <div class="table-container">
+            <table id="scheduleTable">
+              <thead>
+                <tr>
+                  <th>Course Code</th>
+                  <th>Course Title</th>
+                  <th>Section</th>
+                  <th>Program</th>
+                  <th>Faculty Name</th>
+                  <th>Type</th>
+                  <th>Room Name</th>
+                  <th>Time</th>
+                  <th>Day</th>
+                  <th>Semester</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Schedule rows will be dynamically populated here -->
+              </tbody>
+            </table>
+          </div>
+          <button id="saveSchedule">Save Schedule</button>
+          <button id="generateReport">Generate Report</button>
+          <button id="generateFacultyReport">Generate Faculty Schedule</button>
+          <button id="deleteSched">Delete</button>
+        </div>
+      </div>
 
-                        <!-- Generate Schedule Button -->
-                        <div class="generatebtn">
-                            <button type="submit" id="generateBtn">Generate Schedule</button>
-                        </div>
-                    </form>
-                </div>
+      <!-- Background Logo -->
+      <div class="logo-container">
+        <img src="CAS_LOGO.png" alt="CAS Logo" class="cas-logo" />
+      </div>
 
-                <!-- Schedule Table -->
-                <div class="table-section">
-                    <div class="table-container">
-                        <table id="scheduleTable">
-                            <thead>
-                                <tr>
-                                    <th>Course Code</th>
-                                    <th>Course Title</th>
-                                    <th>Section</th>
-                                    <th>Program</th>
-                                    <th>Faculty Name</th>
-                                    <th>Type</th>
-                                    <th>Room Name</th>
-                                    <th>Time</th>
-                                    <th>Day</th>
-                                    <th>Semester</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Schedule rows will be dynamically populated here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <button id="saveSchedule">Save Schedule</button>
-                    <button id="generateReport">Generate Report</button>
-                    <button id="deleteSched">Delete</button>
-                </div>
-            </div>
+      <!-- Hidden Form for PDF Download -->
+      <div class="form-container" id="formContainer" style="display: none">
+        <form id="downloadSched">
+          <h2>Download Schedule</h2>
+          <input type="hidden" id="dwnSched" name="dwnSched" />
+          <table>
+            <tr>
+              <td><label for="program">Program:</label></td>
+              <td>
+                <select id="program" name="program" required>
+                  <option value="BSPSY">BSPSY</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="year_level">Year Level:</label></td>
+              <td>
+                <select id="year_level" name="year_level" required>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="academic_year">Academic Year:</label></td>
+              <td>
+                <select id="academic_year" name="academic_year" required>
+                  <option value="2024-2025">2024-2025</option>
+                  <option value="2025-2026">2025-2026</option>
+                </select>
+              </td>
+            </tr>
+            <!-- New Semester dropdown -->
+            <tr>
+              <td><label for="semester">Semester:</label></td>
+              <td>
+                <select id="reportSemester" name="reportSemester" required>
+                  <option value="1st Semester">1st Semester</option>
+                  <option value="2nd Semester">2nd Semester</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button type="submit" id="downloadBtn">Download PDF</button>
+                <button type="button" id="cancelBtn">Cancel</button>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
 
-            <!-- Background Logo -->
-            <div class="logo-container">
-                <img src="CAS_LOGO.png" alt="CAS Logo" class="cas-logo">
-            </div>
+      <div
+        class="form-container"
+        id="formContainerFaculty"
+        style="display: none"
+      >
+        <form id="downloadFacultySched">
+          <h2>Download Faculty Schedule</h2>
+          <input type="hidden" id="dwnSched" name="dwnSched" />
+          <table>
+            <tr>
+              <td><label for="facultyName">Faculty:</label></td>
+              <td>
+                <select id="facultyName" name="facultyName" required>
+                  <!-- <option value="BSPSY">BSPSY</option> -->
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="academic_year">Academic Year:</label></td>
+              <td>
+                <select id="academic_year" name="academic_year" required>
+                  <option value="2024-2025">2024-2025</option>
+                  <option value="2025-2026">2025-2026</option>
+                </select>
+              </td>
+            </tr>
+            <!-- New Semester dropdown -->
+            <tr>
+              <td><label for="semester">Semester:</label></td>
+              <td>
+                <select id="reportSemester" name="reportSemester" required>
+                  <option value="1st Semester">1st Semester</option>
+                  <option value="2nd Semester">2nd Semester</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button type="submit" id="downloadFacultyBtn">
+                  Download PDF
+                </button>
+                <button type="button" id="cancelFacultyBtn">Cancel</button>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </main>
 
-            <!-- Hidden Form for PDF Download -->
-            <div class="form-container" id="formContainer" style="display: none;">
-                <form id="downloadSched">
-                    <h2>Download Schedule</h2>
-                    <input type="hidden" id="dwnSched" name="dwnSched">
-                    <table>
-                        <tr>
-                            <td><label for="program">Program:</label></td>
-                            <td>
-                                <select id="program" name="program" required>
-                                    <option value="BSPSY">BSPSY</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="year_level">Year Level:</label></td>
-                            <td>
-                                <select id="year_level" name="year_level" required>
-                                    <option value="1st Year">1st Year</option>
-                                    <option value="2nd Year">2nd Year</option>
-                                    <option value="3rd Year">3rd Year</option>
-                                    <option value="4th Year">4th Year</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="academic_year">Academic Year:</label></td>
-                            <td>
-                                <select id="academic_year" name="academic_year" required>
-                                    <option value="2024-2025">2024-2025</option>
-                                    <option value="2025-2026">2025-2026</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- New Semester dropdown -->
-                        <tr>
-                            <td><label for="semester">Semester:</label></td>
-                            <td>
-                                <select id="reportSemester" name="reportSemester" required>
-                                    <option value="1st Semester">1st Semester</option>
-                                    <option value="2nd Semester">2nd Semester</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <button type="submit" id="downloadBtn">Download PDF</button>
-                                <button type="button" id="cancelBtn">Cancel</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        </main>
+    <!-- Include GA_Assignment.js as a module -->
+    <script type="module" src="CAS_GA_Assignment.js"></script>
 
-        <!-- Include GA_Assignment.js as a module -->
-        <script type="module" src="CAS_GA_Assignment.js"></script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        <script type="module">
-            import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-            import { getFirestore, doc, getDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+      // Your Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAwdsk_UoNooIKhslUSCi8y1xeBq38sSTA",
+        authDomain: "webscheduler-e7d82.firebaseapp.com",
+        projectId: "webscheduler-e7d82",
+        storageBucket: "webscheduler-e7d82.appspot.com",
+        messagingSenderId: "924855937810",
+        appId: "1:924855937810:web:a082d08353fc348c5d21cb",
+        measurementId: "G-HB7GS4YWVW",
+      };
 
-            // Your Firebase configuration
-            const firebaseConfig = {
-                apiKey: "AIzaSyAwdsk_UoNooIKhslUSCi8y1xeBq38sSTA",
-                authDomain: "webscheduler-e7d82.firebaseapp.com",
-                projectId: "webscheduler-e7d82",
-                storageBucket: "webscheduler-e7d82.appspot.com",
-                messagingSenderId: "924855937810",
-                appId: "1:924855937810:web:a082d08353fc348c5d21cb",
-                measurementId: "G-HB7GS4YWVW"
-            };
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
 
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-            
-            // Function to populate Academic Year dropdown
-            async function populateAcademicYearDropdown() {
-                try {
-                    const academicYearDropdown = document.getElementById("academic_year");
-                    const finalScheduleCollection = collection(db, 'finalSchedule');
-                    const querySnapshot = await getDocs(finalScheduleCollection);
+      // Function to populate Academic Year dropdown
+      async function populateAcademicYearDropdown() {
+        try {
+          const academicYearDropdown = document.getElementById("academic_year");
+          const finalScheduleCollection = collection(db, "finalSchedule");
+          const querySnapshot = await getDocs(finalScheduleCollection);
 
-                    // Clear existing options in the dropdown
-                    academicYearDropdown.innerHTML = '<option value="">Select Academic Year</option>';
+          // Clear existing options in the dropdown
+          academicYearDropdown.innerHTML =
+            '<option value="">Select Academic Year</option>';
 
-                    // Add each document ID (academic year) as an option in the dropdown
-                    querySnapshot.forEach(docSnap => {
-                        const academicYear = docSnap.id; // Document ID as the academic year
-                        const option = document.createElement("option");
-                        option.value = academicYear;
-                        option.textContent = academicYear;
-                        academicYearDropdown.appendChild(option);
-                    });
-                } catch (error) {
-                    console.error("Error fetching academic years:", error);
+          // Add each document ID (academic year) as an option in the dropdown
+          querySnapshot.forEach((docSnap) => {
+            const academicYear = docSnap.id; // Document ID as the academic year
+            const option = document.createElement("option");
+            option.value = academicYear;
+            option.textContent = academicYear;
+            academicYearDropdown.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Error fetching academic years:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", async function () {
+        const scheduleTableBody = document
+          .getElementById("scheduleTable")
+          .getElementsByTagName("tbody")[0];
+        const generateScheduleBtn = document.getElementById("generateBtn");
+        const saveScheduleBtn = document.getElementById("saveSchedule");
+        const conflictMessage = document.getElementById("conflictMessage"); // Add a placeholder for the conflict message
+
+        await populateAcademicYearDropdown();
+
+        // Typewriter Effect Function
+        function typewriterEffect(text, element, callback) {
+          let i = 0;
+          function type() {
+            if (i < text.length) {
+              element.textContent = text.slice(0, i + 1); // Update the text progressively
+              i++;
+              setTimeout(type, 200); // Adjust typing speed (in milliseconds)
+            } else if (callback) {
+              setTimeout(callback, 500); // Delay before executing the callback
+            }
+          }
+          element.textContent = ""; // Clear the element text before starting
+          type();
+        }
+
+        // Display Schedule Function
+        async function displaySchedule() {
+          try {
+            conflictMessage.textContent = ""; // Clear previous messages
+            const scheduleDocRef = doc(db, "GenerateSchedule", "CAS_Schedule");
+            const scheduleDoc = await getDoc(scheduleDocRef);
+
+            // Start the typewriter effect
+            typewriterEffect(
+              "Checking for conflict...",
+              conflictMessage,
+              async function () {
+                if (scheduleDoc.exists()) {
+                  const assignments = scheduleDoc.data().assignments || [];
+                  scheduleTableBody.innerHTML = ""; // Clear existing table rows
+
+                  // Detect conflicts
+                  const hasConflicts = checkForConflicts(assignments);
+                  if (hasConflicts) {
+                    conflictMessage.textContent =
+                      "Conflict found in the schedule.";
+                  } else {
+                    conflictMessage.textContent = "No conflicts on schedule.";
+                  }
+
+                  // Populate the table
+                  assignments.forEach((assignment) => {
+                    const newRow = scheduleTableBody.insertRow();
+                    newRow.innerHTML = `
+                            <td>${assignment.course_code}</td>
+                            <td>${assignment.course_title}</td>
+                            <td>${assignment.section_name}</td>
+                            <td>${assignment.program}</td>
+                            <td>${assignment.faculty_name}</td>
+                            <td>${assignment.type}</td>
+                            <td>${assignment.room_name}</td>
+                            <td>${assignment.time_start} - ${assignment.time_end}</td>
+                            <td>${assignment.day}</td>
+                            <td>${assignment.semester}</td>
+                        `;
+                  });
+                } else {
+                  console.log("No schedule document found!");
                 }
+              }
+            );
+          } catch (error) {
+            console.error("Error fetching schedule:", error.message);
+          }
+        }
+
+        // Conflict Detection Function
+        function checkForConflicts(assignments) {
+          const conflicts = [];
+          for (let i = 0; i < assignments.length; i++) {
+            for (let j = i + 1; j < assignments.length; j++) {
+              if (
+                assignments[i].day === assignments[j].day &&
+                assignments[i].room_name === assignments[j].room_name &&
+                assignments[i].time_start < assignments[j].time_end &&
+                assignments[i].time_end > assignments[j].time_start // Overlapping time
+              ) {
+                conflicts.push({
+                  assignment1: assignments[i],
+                  assignment2: assignments[j],
+                });
+              }
+            }
+          }
+          return conflicts.length > 0; // Return true if conflicts exist
+        }
+
+        // Example Trigger for Display Schedule
+        generateScheduleBtn.addEventListener("click", displaySchedule);
+
+        async function populateFacultyDropdown() {
+          try {
+            const facultyDropdown = document.getElementById("facultyName");
+            const facultyCollectionRef = collection(
+              db,
+              "Faculty_Data",
+              "CAS",
+              "CAS_Faculty"
+            );
+            const querySnapshot = await getDocs(facultyCollectionRef);
+
+            // Clear existing options
+            facultyDropdown.innerHTML = '<option value="">Faculty:</option>';
+
+            // Add each faculty's name as an option
+            querySnapshot.forEach((doc) => {
+              const facultyData = doc.data();
+              const option = document.createElement("option");
+              option.value = facultyData.name; // Use the name field as the value
+              option.textContent = facultyData.name; // Display the name
+              facultyDropdown.appendChild(option);
+            });
+
+            console.log("Faculty dropdown populated successfully.");
+          } catch (error) {
+            console.error("Error fetching faculty data:", error);
+          }
+        }
+
+        // Fetch and Generate Schedule for Selected Faculty
+        document
+          .getElementById("downloadFacultyBtn")
+          .addEventListener("click", async (event) => {
+            event.preventDefault();
+
+            const facultyName = document.getElementById("facultyName").value;
+            if (!facultyName) {
+              alert("Please select a faculty.");
+              return;
             }
 
-            document.addEventListener("DOMContentLoaded", async function () {
-                const scheduleTableBody = document.getElementById("scheduleTable").getElementsByTagName("tbody")[0];
-                const generateScheduleBtn = document.getElementById("generateBtn");
-                const saveScheduleBtn = document.getElementById("saveSchedule");
+            try {
+              const scheduleCollectionRef = collection(
+                db,
+                "finalSchedule",
+                "A.Y. 2024-2025",
+                "2nd Semester",
+                "CAS",
+                "schedule"
+              );
+              const scheduleSnapshot = await getDocs(scheduleCollectionRef);
 
-                await populateAcademicYearDropdown();
+              if (scheduleSnapshot.empty) {
+                alert("No schedules found.");
+                return;
+              }
 
-                // Display Schedule Function
-                async function displaySchedule() {
-                    try {
-                        const scheduleDocRef = doc(db, "GenerateSchedule", "CAS_Schedule");
-                        const scheduleDoc = await getDoc(scheduleDocRef);
-                
-                        if (scheduleDoc.exists()) {
-                            const assignments = scheduleDoc.data().assignments || [];
-                            scheduleTableBody.innerHTML = ""; // Clear existing table rows
-                
-                            // Populate the schedule table
-                            assignments.forEach(assignment => {
-                                const newRow = scheduleTableBody.insertRow();
-                                newRow.innerHTML = `
-                                    <td>${assignment.course_code}</td>
-                                    <td>${assignment.course_title}</td>
-                                    <td>${assignment.section_name}</td>
-                                    <td>${assignment.program}</td>
-                                    <td>${assignment.faculty_name}</td>
-                                    <td>${assignment.type}</td>
-                                    <td>${assignment.room_name}</td>
-                                    <td>${assignment.time_start} - ${assignment.time_end}</td>
-                                    <td>${assignment.day}</td>
-                                    <td>${assignment.semester}</td>
-                                `;
-                            });
-                
-                            // Check for conflicts
-                            const conflicts = checkForConflicts(assignments);
-                            if (conflicts.length > 0) {
-                                alert(`Conflicts detected:\n${conflicts.join("\n")}`);
-                            } else {
-                                alert("No conflicts detected in the schedule.");
-                            }
-                        } else {
-                            console.log("No schedule document found!");
-                        }
-                    } catch (error) {
-                        console.error('Error fetching schedule:', error.message);
-                    }
+              // Filter assignments based on selected faculty
+              let assignments = [];
+              scheduleSnapshot.forEach((doc) => {
+                const data = doc.data();
+                if (data?.assignments && Array.isArray(data.assignments)) {
+                  assignments = assignments.concat(
+                    data.assignments.filter(
+                      (assignment) => assignment.faculty_name === facultyName
+                    )
+                  );
                 }
-                
-                // Function to check for schedule conflicts
-                function checkForConflicts(assignments) {
-                    const conflicts = [];
-                    const timeConflictCheck = {};
-                
-                    assignments.forEach(assignment => {
-                        const key = `${assignment.room_name}-${assignment.day}`;
-                        const timeRange = `${assignment.time_start}-${assignment.time_end}`;
-                
-                        if (!timeConflictCheck[key]) {
-                            timeConflictCheck[key] = [];
-                        }
-                
-                        // Check if any existing time range overlaps
-                        for (const existingRange of timeConflictCheck[key]) {
-                            if (isTimeOverlap(existingRange, timeRange)) {
-                                conflicts.push(
-                                    `Conflict detected for room "${assignment.room_name}" on ${assignment.day} ` +
-                                    `between ${existingRange} and ${timeRange} for course "${assignment.course_code}".`
-                                );
-                            }
-                        }
-                
-                        // Add the current time range to the list
-                        timeConflictCheck[key].push(timeRange);
-                    });
-                
-                    return conflicts;
+              });
+
+              if (assignments.length === 0) {
+                alert(`No schedules found for ${facultyName}.`);
+                return;
+              }
+
+              // Transform and generate the PDF
+              const transformedData = transformSchedule(assignments);
+              generatePDF(transformedData, facultyName);
+            } catch (error) {
+              console.error("Error fetching schedule:", error);
+            }
+          });
+
+        function transformSchedule(assignments) {
+          const days = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+          ];
+          const times = [
+            "7:00 AM – 7:30 AM",
+            "7:30 AM – 8:00 AM",
+            "8:00 AM – 8:30 AM",
+            "8:30 AM – 9:00 AM",
+            "9:00 AM – 9:30 AM",
+            "9:30 AM – 10:00 AM",
+            "10:00 AM – 10:30 AM",
+            "10:30 AM – 11:00 AM",
+            "11:00 AM – 11:30 AM",
+            "11:30 AM – 12:00 PM",
+            "12:00 PM – 12:30 PM",
+            "12:30 PM – 1:00 PM",
+            "1:00 PM – 1:30 PM",
+            "1:30 PM – 2:00 PM",
+            "2:00 PM – 2:30 PM",
+            "2:30 PM – 3:00 PM",
+            "3:00 PM – 3:30 PM",
+            "3:30 PM – 4:00 PM",
+            "4:00 PM – 4:30 PM",
+            "4:30 PM – 5:00 PM",
+            "5:00 PM – 5:30 PM",
+            "5:30 PM – 6:00 PM",
+            "6:00 PM – 6:30 PM",
+            "6:30 PM – 7:00 PM",
+            "7:00 PM – 7:30 PM",
+            "7:30 PM – 8:00 PM",
+            "8:00 PM – 8:30 PM",
+            "8:30 PM – 9:00 PM",
+            // Add more time slots as needed
+          ];
+
+          // Initialize a table structure
+          const table = times.map((time) => ({
+            time: time,
+            monday: "",
+            tuesday: "",
+            wednesday: "",
+            thursday: "",
+            friday: "",
+            saturday: "",
+            sunday: "",
+          }));
+
+          // Helper function to calculate time ranges
+          function getTimeRangeIndices(startTime, endTime) {
+            const startIndex = times.findIndex((time) =>
+              time.startsWith(startTime)
+            );
+            const endIndex = times.findIndex((time) => time.endsWith(endTime));
+            return { startIndex, endIndex };
+          }
+
+          // Populate the table with assignments data
+          assignments.forEach(
+            ({
+              day,
+              time_start,
+              time_end,
+              course_code,
+              section_name,
+              room_name,
+              faculty_name,
+            }) => {
+              if (!day || !time_start || !time_end) {
+                console.warn(
+                  "Skipping entry due to missing day or time fields:",
+                  { day, time_start, time_end }
+                );
+                return; // Skip this entry if any critical field is missing
+              }
+
+              const startTime = time_start;
+              const endTime = time_end;
+              const { startIndex, endIndex } = getTimeRangeIndices(
+                startTime,
+                endTime
+              );
+
+              if (startIndex === -1 || endIndex === -1) {
+                console.warn(
+                  "Skipping entry due to time range not matching any slots:",
+                  { time_start, time_end }
+                );
+                return; // Skip this entry if the time range doesn't match any slots
+              }
+
+              // Populate all rows in the range for the specified day
+              for (let i = startIndex; i <= endIndex; i++) {
+                const row = table[i];
+                if (row) {
+                  row[day.toLowerCase()] = `${course_code || ""}\n${
+                    section_name || ""
+                  }\n${room_name || ""}\n${faculty_name || ""}`;
                 }
-                
-                // Helper function to check if two time ranges overlap
-                function isTimeOverlap(range1, range2) {
-                    const [start1, end1] = range1.split("-").map(time => parseInt(time.replace(":", ""), 10));
-                    const [start2, end2] = range2.split("-").map(time => parseInt(time.replace(":", ""), 10));
-                
-                    return Math.max(start1, start2) < Math.min(end1, end2);
-                }
-                
-                // Generate Schedule Button Click Handler
-                generateScheduleBtn.addEventListener("click", async function (event) {
-                    event.preventDefault();
-                
-                    // Get the selected academic year and semester
-                    const startYear = document.getElementById("startYear").value;
-                    const endYear = document.getElementById("endYear").value;
-                    const semester = document.getElementById("semester").value;
-                
-                    if (!startYear || !endYear) {
-                        alert("Please select both start and end year for the academic year.");
-                        return;
-                    }
-                
-                    if (!semester) {
-                        alert("Please select a semester.");
-                        return;
-                    }
-                
-                    const academicYear = `${startYear}-${endYear}`;  // Construct the academic year string
-                
-                    // Run the GA algorithm with the selected academic year, semester, and batch year
-                    await main();
-                    await displaySchedule(); // Display the schedule
-                });
+              }
+            }
+          );
 
-                saveScheduleBtn.addEventListener('click', async function (event) {
-                    event.preventDefault();
+          // Convert the table structure to array format for autoTable
+          return table.map((row) => [
+            row.time,
+            row.monday,
+            row.tuesday,
+            row.wednesday,
+            row.thursday,
+            row.friday,
+            row.saturday,
+            row.sunday,
+          ]);
+        }
 
-                    await saveAndClearSchedule();
-                    alert("Schedule saved.");
-                });
+        function generatePDF(scheduleData, facultyName) {
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4",
+          });
 
+          // Add logos, header, and faculty name in the PDF
+          pdf.addImage("CAS_LOGO.png", "PNG", 170, 10, 30, 30);
+          pdf.addImage("pnc_logo.jpg", "JPG", 10, 10, 30, 30);
 
-                // Show form container on "Generate Report" button click
-                document.getElementById('generateReport').addEventListener('click', function () {
-                    document.getElementById('formContainer').style.display = 'block';
-                });
+          // Add Header
+          pdf.setFontSize(11);
+          pdf.setFont("helvetica", "normal"); // Default font for fallback
+          pdf.text("Republic of the Philippines", 105, 15, { align: "center" });
 
-                // Hide form container on "Cancel" button click
-                document.getElementById('cancelBtn').addEventListener('click', function () {
-                    document.getElementById('formContainer').style.display = 'none';
-                });
+          // Adjust the university name
+          pdf.setFontSize(14);
+          pdf.setFont("helvetica", "bold");
+          // pdf.setTextColor(0, 255, 0); // Green text
+          pdf.text("University of Cabuyao ", 105, 20, { align: "center" });
 
-                
+          pdf.setFont("helvetica", "normal");
+          pdf.text("(Pamantasan Ng Cabuyao)", 105, 25, { align: "center" });
 
-                // Handle PDF download on form submission
-                document.getElementById('downloadBtn').addEventListener('click', async function (event) {
-                    event.preventDefault();
+          pdf.setFont("helvetica", "bolditalic");
+          pdf.text("College of Arts and Sciences", 105, 30, { align: "center" });
 
-                    // Get selected values
-                    const program = document.getElementById('program').value;
-                    const yearLevel = document.getElementById('year_level').value;
-                    const academicYear = document.getElementById('academic_year').value;
-                    const semester = document.getElementById('reportSemester').value;
+          pdf.setFontSize(8);
+          pdf.setFont("helvetica", "italic");
+          pdf.text("Katapatan Mutual Homes, Brgy. Banay-banay, City of Cabuyao, Laguna, Philippines 4025", 105, 35, { align: "center" });
 
-                    // Log to verify values before calling fetchSchedule
-                    console.log("Selected criteria:", { program, yearLevel, academicYear, semester });
+          pdf.setFontSize(14);
+          pdf.text(`Class Schedule for ${facultyName}`, 105, 45, {
+            align: "center",
+          });
 
-                    if (!program || !yearLevel || !academicYear || !semester) {
-                        alert("Please select all the required fields.");
-                        return;
-                    }
+          pdf.autoTable({
+            startY: 50,
+            head: [
+              [
+                "Time",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ],
+            ],
+            body: scheduleData,
+            styles: { fontSize: 7, cellPadding: 5, lineColor: [0, 0, 0], lineWidth: 0.2, },
+            headStyles: { fillColor: [211, 211, 211], textColor: [0, 0, 0] },
+            bodyStyles: { textColor: [0, 0, 0] },
+            margin: { left: 10, right: 10 },
+          });
 
-                    // Fetch the schedule
-                    const scheduleData = await fetchSchedule(program, yearLevel, academicYear, semester);
+          pdf.save(`${facultyName}_Schedule.pdf`);
+        }
 
-                    if (scheduleData.length === 0) {
-                        alert("No schedule data found for the selected criteria.");
-                        return;
-                    }
+        // // Generate Schedule Button Click Handler
+        // generateScheduleBtn.addEventListener("click", async function (event) {
+        //     event.preventDefault();
 
-                    // Generate PDF using jsPDF and autoTable
-                    const { jsPDF } = window.jspdf;
-                    const doc = new jsPDF();
+        //     // Get the selected academic year and semester
+        //     const startYear = document.getElementById("startYear").value;
+        //     const endYear = document.getElementById("endYear").value;
+        //     const semester = document.getElementById("semester").value;
 
-                    const tableData = scheduleData.map(schedule => [
-                        schedule.course_code,
-                        schedule.course_title,
-                        schedule.section_name,
-                        schedule.program,
-                        schedule.faculty_name,
-                        schedule.type,
-                        schedule.room_name,
-                        `${schedule.time_start} - ${schedule.time_end}`,
-                        schedule.day,
-                        schedule.semester
-                    ]);
+        //     if (!startYear || !endYear) {
+        //         alert("Please select both start and end year for the academic year.");
+        //         return;
+        //     }
 
-                    doc.autoTable({
-                        head: [['Course Code', 'Course Title', 'Section', 'Program', 'Faculty Name', 'Type', 'Room Name', 'Time', 'Day', 'Semester']],
-                        body: tableData,
-                    });
+        //     if (!semester) {
+        //         alert("Please select a semester.");
+        //         return;
+        //     }
 
-                    doc.save(`Schedule_${program}_${yearLevel}_${academicYear}_${semester}.pdf`);
-                });
+        //     const academicYear = `${startYear}-${endYear}`;  // Construct the academic year string
 
-                async function fetchSchedule(program, yearLevel, academicYear, semester) {
+        //     // Run the GA algorithm with the selected academic year, semester, and batch year
+        //     await main();
+        //     await displaySchedule(); // Display the schedule
+        // });
 
-                    console.log("Fetching schedule with criteria:", program, yearLevel, academicYear, semester);
+        /*
+                    START
+            */
+        // Generate Schedule Button Click Handler
+        generateScheduleBtn.addEventListener("click", async function (event) {
+          event.preventDefault();
 
-                    // Access the specific `schedule` collection based on academicYear and semester
-                    const scheduleCollectionRef = collection(db, 'finalSchedule', academicYear, semester, 'CAS', 'schedule');
-                    const querySnapshot = await getDocs(scheduleCollectionRef);
+          // Get the selected academic year and semester
+          const startYear = document.getElementById("startYear").value;
+          const endYear = document.getElementById("endYear").value;
+          const semester = document.getElementById("semester").value;
 
-                    let assignments = [];
+          if (!startYear || !endYear) {
+            alert(
+              "Please select both start and end year for the academic year."
+            );
+            return;
+          }
 
-                    // Find the document with the `assignments` array
-                    querySnapshot.forEach((docSnap) => {
-                        const data = docSnap.data();
-                        if (data.assignments && Array.isArray(data.assignments)) {
-                            assignments = data.assignments;
-                        }
-                    });
+          if (!semester) {
+            alert("Please select a semester.");
+            return;
+          }
 
-                    if (assignments.length === 0) {
-                        console.log("No assignments found for the selected criteria.");
-                        return [];
-                    }
+          const academicYear = `${startYear}-${endYear}`; // Construct the academic year string
 
-                    console.log("Fetched assignments:", assignments);
+          try {
+            // Fetch the schedule data
+            const scheduleData = await fetchScheduleData(
+              academicYear,
+              semester
+            );
 
-                    // Filter the assignments based on Program and Year Level
-                    return assignments.filter(assignment =>
-                        assignment.program === program &&
-                        assignment.year_level === yearLevel
-                    );
-                }
+            // Check for conflicts
+            const conflicts = checkScheduleConflicts(scheduleData);
+
+            if (conflicts.length > 0) {
+              // Display the conflicts to the user
+              displayConflictNotifications(conflicts);
+              return; // Stop here if there are conflicts
+            }
+
+            // Run the GA algorithm with the selected academic year, semester, and batch year
+            await main();
+            // await displaySchedule(); // Display the schedule
+          } catch (error) {
+    console.error("Error generating schedule:", error);
+
+    // Display the error dialog
+    const errorDialog = document.getElementById('errorDialog');
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = "An error occurred while generating the schedule. Please try again.";
+    errorDialog.showModal();
+
+    // Close the error dialog when the user clicks OK
+    document.getElementById('errorClose').onclick = () => {
+        errorDialog.close();
+    };
+}
+
+        });
+
+        // Function to fetch schedule data from the system (mock implementation)
+        async function fetchScheduleData(academicYear, semester) {
+          // Replace this with your actual API/database call to fetch the schedule data
+          // Example return structure:
+          return await displaySchedule();
+          // { day: "Monday", startTime: "09:00", endTime: "10:30", room: "Room101", faculty: "John Doe" },
+          // { day: "Monday", startTime: "10:00", endTime: "11:30", room: "Room101", faculty: "Jane Smith" }
+        }
+
+        // Function to check for conflicts
+        function checkScheduleConflicts(schedules) {
+          let conflicts = [];
+          for (let i = 0; i < schedules.length; i++) {
+            for (let j = i + 1; j < schedules.length; j++) {
+              let scheduleA = schedules[i];
+              let scheduleB = schedules[j];
+
+              // Check for room conflicts
+              if (
+                scheduleA.room === scheduleB.room &&
+                scheduleA.day === scheduleB.day &&
+                timesOverlap(
+                  scheduleA.startTime,
+                  scheduleA.endTime,
+                  scheduleB.startTime,
+                  scheduleB.endTime
+                )
+              ) {
+                conflicts.push(
+                  `Room conflict: ${scheduleA.room} on ${scheduleA.day} at ${scheduleA.startTime}-${scheduleA.endTime}`
+                );
+              }
+
+              // Check for faculty conflicts
+              if (
+                scheduleA.faculty === scheduleB.faculty &&
+                scheduleA.day === scheduleB.day &&
+                timesOverlap(
+                  scheduleA.startTime,
+                  scheduleA.endTime,
+                  scheduleB.startTime,
+                  scheduleB.endTime
+                )
+              ) {
+                conflicts.push(
+                  `Faculty conflict: ${scheduleA.faculty} on ${scheduleA.day} at ${scheduleA.startTime}-${scheduleA.endTime}`
+                );
+              }
+            }
+          }
+          return conflicts;
+        }
+
+        // Helper function to check if two time ranges overlap
+        function timesOverlap(start1, end1, start2, end2) {
+          return start1 < end2 && start2 < end1;
+        }
+
+        // Function to display conflict notifications
+        function displayConflictNotifications(conflicts) {
+          let message = "The following conflicts were found:\n\n";
+          conflicts.forEach((conflict, index) => {
+            message += `${index + 1}. ${conflict}\n`;
+          });
+          alert(message);
+        }
+
+        /*
+                        END
+                */
+
+        saveScheduleBtn.addEventListener("click", async function (event) {
+          event.preventDefault();
+
+          await saveAndClearSchedule();
+          alert("Schedule saved.");
+        });
+
+        // Show form container on "Generate Report" button click
+        document
+          .getElementById("generateReport")
+          .addEventListener("click", function () {
+            document.getElementById("formContainer").style.display = "block";
+          });
+
+        document
+          .getElementById("generateFacultyReport")
+          .addEventListener("click", function () {
+            document.getElementById("formContainerFaculty").style.display =
+              "block";
+            populateFacultyDropdown();
+          });
+
+        // Hide form container on "Cancel" button click
+        document
+          .getElementById("cancelBtn")
+          .addEventListener("click", function () {
+            document.getElementById("formContainer").style.display = "none";
+          });
+
+          document
+          .getElementById("cancelFacultyBtn")
+          .addEventListener("click", function () {
+            document.getElementById("formContainerFaculty").style.display = "none";
+          });
+
+        // Handle PDF download on form submission
+        document
+          .getElementById("downloadBtn")
+          .addEventListener("click", async function (event) {
+            event.preventDefault();
+
+            // Get selected values
+            const program = document.getElementById("program").value;
+            const yearLevel = document.getElementById("year_level").value;
+            const academicYear = document.getElementById("academic_year").value;
+            const semester = document.getElementById("reportSemester").value;
+
+            // Log to verify values before calling fetchSchedule
+            console.log("Selected criteria:", {
+              program,
+              yearLevel,
+              academicYear,
+              semester,
             });
-        </script>
-    </body>
-    </html>
+
+            if (!program || !yearLevel || !academicYear || !semester) {
+              alert("Please select all the required fields.");
+              return;
+            }
+
+            // Fetch the schedule
+            const scheduleData = await fetchSchedule(
+              program,
+              yearLevel,
+              academicYear,
+              semester
+            );
+
+            if (scheduleData.length === 0) {
+              alert("No schedule data found for the selected criteria.");
+              return;
+            }
+
+            // Generate PDF using jsPDF and autoTable
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const tableData = scheduleData.map((schedule) => [
+              schedule.course_code,
+              schedule.course_title,
+              schedule.section_name,
+              schedule.program,
+              schedule.faculty_name,
+              schedule.type,
+              schedule.room_name,
+              `${schedule.time_start} - ${schedule.time_end}`,
+              schedule.day,
+              schedule.semester,
+            ]);
+
+            doc.autoTable({
+              head: [
+                [
+                  "Course Code",
+                  "Course Title",
+                  "Section",
+                  "Program",
+                  "Faculty Name",
+                  "Type",
+                  "Room Name",
+                  "Time",
+                  "Day",
+                  "Semester",
+                ],
+              ],
+              body: tableData,
+            });
+
+            doc.save(
+              `Schedule_${program}_${yearLevel}_${academicYear}_${semester}.pdf`
+            );
+          });
+
+        async function fetchSchedule(
+          program,
+          yearLevel,
+          academicYear,
+          semester
+        ) {
+          console.log(
+            "Fetching schedule with criteria:",
+            program,
+            yearLevel,
+            academicYear,
+            semester
+          );
+
+          // Access the specific `schedule` collection based on academicYear and semester
+          const scheduleCollectionRef = collection(
+            db,
+            "finalSchedule",
+            academicYear,
+            semester,
+            "CAS",
+            "schedule"
+          );
+          const querySnapshot = await getDocs(scheduleCollectionRef);
+
+          let assignments = [];
+
+          // Find the document with the `assignments` array
+          querySnapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            if (data.assignments && Array.isArray(data.assignments)) {
+              assignments = data.assignments;
+            }
+          });
+
+          if (assignments.length === 0) {
+            console.log("No assignments found for the selected criteria.");
+            return [];
+          }
+
+          console.log("Fetched assignments:", assignments);
+
+          // Filter the assignments based on Program and Year Level
+          return assignments.filter(
+            (assignment) =>
+              assignment.program === program &&
+              assignment.year_level === yearLevel
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

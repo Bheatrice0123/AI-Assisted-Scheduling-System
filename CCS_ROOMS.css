@@ -89,6 +89,7 @@ main {
     }
 }
 
+/* Navigation Styles */
 nav {
     position: absolute;
     left: 10px;
@@ -122,7 +123,7 @@ nav a {
     display: inline-block;
     padding: 15px 5px;
     transition: all 0.3s;
-    margin-top: 10px;
+    margin-top: 20px;
     text-align: center;
     width: 95%;
     color: black;
@@ -149,7 +150,6 @@ nav::before {
     background-color: rgba(255, 255, 255, 0.5);
     z-index: -1;
 }
-
 
 /* Form and Table Layout */
 .form-and-table-container {
@@ -233,6 +233,14 @@ th {
     font-weight: bold;
 }
 
+/* Targeting the form and table headers */
+.form-container h2,
+.table-container h2 {
+    margin-top: 0; /* Removes any default margin */
+    padding-top: 5px; /* Adjust this value as needed */
+    font-size: 1.5em; /* Optional: Adjust font size for better alignment */
+}
+
 /* Optional: Add styling for the scroll bar */
 .table-container::-webkit-scrollbar {
     width: 10px;
@@ -301,6 +309,8 @@ th {
     box-sizing: border-box;
 }
 
+
+
 /* Style for the warning icon */
 dialog .icon {
     height: 100px;
@@ -359,3 +369,75 @@ dialog .controls button  {
 .controls button:hover {
     background-color:#0a7ba8;
 }
+
+
+dialog #confirmAddroom{
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    margin: auto;
+}
+
+dialog #confirmAddroom::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.controls #confirmAddroom {
+    margin-top: 20px;
+}
+
+.controls #confirmAddroom button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.controls #confirmAddroom .ok-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.controls #confirmAddroom.close-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+
+dialog #roomExist{
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    margin: auto;
+}
+
+dialog #roomExist::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.controls #roomExist {
+    margin-top: 20px;
+}
+
+.controls #roomExist button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.controls #confirmAddroom .ok-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+

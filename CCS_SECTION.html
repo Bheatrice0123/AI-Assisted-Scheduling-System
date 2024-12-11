@@ -7,6 +7,7 @@
     <title>College of Computing Studies</title>
     <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -41,6 +42,7 @@
         <!-- Form and Table Section -->
         <div class="form-and-table-container">
             <div class="form-container">
+                <h2>CCS - Section Management</h2>
                 <form id="courseSectionForm">
                     <table>
                         <tr>
@@ -90,6 +92,33 @@
             </div>
         </div>
     </main>
+
+    <dialog id="sectionConfirmDialog">
+        <h1>Confirm Section Generation</h1>
+        <p id="confirmMessage"></p>
+        <div class="controls">
+            <button id="confirmYes" class="ok-btn">YES</button>
+            <button id="confirmCancel" class="close-btn">CANCEL</button>
+        </div>
+    </dialog>
+
+    <dialog id="successDialog">
+        <h1>Success</h1>
+        <p id="successMessage"></p>
+        <div class="controls">
+            <button id="successClose" class="ok-btn">OK</button>
+        </div>
+    </dialog>
+
+    <dialog id="deleteSection"><!--Modals Delete section in the table-->
+        <h1>Confirm Section Deletion</h1>
+        <p>Are you sure you want to delete section <span id="sectionName"></span>?</p>
+        <div class="controls">
+            <button id="confirmYes" class="ok-btn">YES</button>
+            <button id="confirmCancel" class="close-btn">CANCEL</button>
+        </div>
+    </dialog>
+    
 
     <footer>
         <p>&copy; 2024 College of Computing Studies</p>

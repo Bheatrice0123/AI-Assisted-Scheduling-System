@@ -218,7 +218,7 @@ async function confirmAndSaveCurriculum() {
         return;
     }
 
-   // Check if any of the Set Hours is 0
+    // Check if any of the Set Hours is 0
     const zeroHourSubjects = curriculumData.filter(row => row['Set Hours'] == 0);
     if (zeroHourSubjects.length > 0) {
         // Get the sethours dialog element
@@ -236,14 +236,43 @@ async function confirmAndSaveCurriculum() {
         return; // Exit the function after showing the dialog
     }
 
-
     // Check if the curriculum already exists in Firestore
     const curriculumExists = await checkIfCurriculumExists(program, curriculumYear);
     
-    if (curriculumExists) {
-        alert(`Error: The curriculum for ${program} Batch ${curriculumYear} already exists!`);
-        return;
-    }
+    // Function to show the error dialog
+const showErrorDialog = async (program, curriculumYear) => {
+    const errorDialog = document.createElement("dialog");
+    errorDialog.setAttribute("id", "errorDialog");
+    errorDialog.innerHTML = `
+        <h1>Error</h1>
+        <p>The curriculum for ${program} Batch ${curriculumYear} already exists!</p>
+        <div class="controls">
+            <button class="ok-btn">OK</button>
+        </div>
+    `;
+
+    // Append dialog to body
+    document.body.appendChild(errorDialog);
+
+    // Show dialog
+    errorDialog.showModal();
+
+    return new Promise((resolve) => {
+        const okButton = errorDialog.querySelector(".ok-btn");
+        okButton.onclick = () => {
+            errorDialog.close();
+            document.body.removeChild(errorDialog);
+            resolve();
+        };
+    });
+};
+
+// Example usage
+if (curriculumExists) {
+    await showErrorDialog(program, curriculumYear);
+    return;
+}
+
 
     // Confirmation dialog
     if (confirm("Are you sure you want to save this curriculum?")) {
@@ -345,6 +374,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
         alert("No file selected!");
     }
 });
+
 
 // Function to delete data from tempCurriculum_CCS and clear the table
 async function deleteCurriculum() {// MODALS FOR DELETE CURRICULUM

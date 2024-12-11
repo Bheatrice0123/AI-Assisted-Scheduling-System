@@ -17,115 +17,97 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-document.getElementById('courseSectionForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
+document.getElementById('courseSectionForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Prevent form submission
 
-    const numStudents = parseInt(document.getElementById('numStudents').value, 10);
+    const numStudents = parseInt(document.getElementById('numStudents').value);
     const program = document.getElementById('programSelect').value;
     const yearLevelSelected = document.getElementById('yearLevel').value;
 
-    if (!numStudents || isNaN(numStudents) || numStudents < 25) {
-        alert('Error: Please enter a valid number of students (minimum 25).');
-        return;
+    const sectionConfirmDialog = document.getElementById('sectionConfirmDialog');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmCancel = document.getElementById('confirmCancel');
+
+    // Set the confirmation message dynamically
+    confirmMessage.textContent = `Generate sections for ${numStudents} students in ${program}, ${yearLevelSelected}?`;
+
+    // Show the confirmation dialog
+    sectionConfirmDialog.showModal();
+
+    // Wait for user confirmation
+    const userConfirmed = await new Promise((resolve) => {
+        confirmYes.onclick = () => {
+            resolve(true);
+            sectionConfirmDialog.close();
+        };
+        confirmCancel.onclick = () => {
+            resolve(false);
+            sectionConfirmDialog.close();
+        };
+    });
+
+    if (!userConfirmed) {
+        return; // Stop process if the user cancels
     }
 
-    // Before generating sections, check if sections already exist for the selected program and year level
-    const existingSections = await checkExistingSections(program, yearLevelSelected);
-
-    if (existingSections.length > 0) {
-        // If there are already sections, show an error message and stop the process
-        alert(`Error: Sections already exist for ${yearLevelSelected} ${program}. Please delete them before adding new sections.`);
-        return;
-    }
-
-    // Confirm the section generation action
-    if (!confirm(`Generate sections for ${numStudents} students in ${program}, ${yearLevelSelected}?`)) {
-        return;  // If user cancels, stop the process
-    }
-
-    // Mapping year level and program shorthand
-    const yearLevelMapping = {
-        '1st Year': 1,
-        '2nd Year': 2,
-        '3rd Year': 3,
-        '4th Year': 4
-    };
-
-    const programMapping = {
-        'BSCS': 'CS',
-        'BSIT': 'IT'
-    };
-
-    const yearLevel = yearLevelMapping[yearLevelSelected];
-    const programShort = programMapping[program];
-
-    // Section calculation logic
-    const maxStudentsPerSection = 50;
-    const minStudentsPerSection = 25;
-    let numSections = Math.floor(numStudents / maxStudentsPerSection);
-    let remainingStudents = numStudents % maxStudentsPerSection;
-
-    // Adjust number of sections if remaining students are fewer than 25
-    if (remainingStudents > 0 && remainingStudents < minStudentsPerSection) {
-        numSections--; // Reduce one section
-        remainingStudents += maxStudentsPerSection; // Add remaining students to other sections
-    }
-
-    // Only increment numSections if there are remaining students greater than 0
-    if (remainingStudents > 0) {
-        numSections++;
-    }
-
-    const sectionNames = [];
-    
-    // Generate section names
-    for (let i = 0; i < numSections; i++) {
-        const sectionLetter = String.fromCharCode(65 + i); // Generates letters A, B, C, etc.
-        const sectionName = `${yearLevel}${programShort}-${sectionLetter}`;
-        sectionNames.push(sectionName);
-    }
-
+    // Proceed with section generation
     try {
-        // Reference to the Sections sub-collection inside Section_CCS under Section_Data
-        const sectionCCSCollection = collection(db, 'Section_Data', 'Section_CCS', 'Sections');
-        console.log("Section_CCS -> Sections sub-collection reference: ", sectionCCSCollection); // Debugging output
-    
-        // Define studentsPerSection array to store the number of students for each section
-        const studentsPerSection = new Array(numSections).fill(maxStudentsPerSection);
-        
-        // Adjust the last section to account for any remaining students
-        if (remainingStudents > 0) {
-            studentsPerSection[studentsPerSection.length - 1] = remainingStudents;
+        const maxStudentsPerSection = 50;
+        const minStudentsPerSection = 25;
+        let numSections = Math.floor(numStudents / maxStudentsPerSection);
+        let remainingStudents = numStudents % maxStudentsPerSection;
+
+        // Adjust for remaining students
+        if (remainingStudents > 0 && remainingStudents < minStudentsPerSection) {
+            numSections--;
+            remainingStudents += maxStudentsPerSection;
         }
-    
-        // Add sections as documents in the 'Sections' sub-collection
-        const sectionPromises = sectionNames.map(async (sectionName, index) => {
-            const studentsInSection = studentsPerSection[index];  // Assign students per section from the array
-            console.log(`Adding section: ${sectionName} with ${studentsInSection} students.`); // Debugging output
-    
-            // Create a document reference with the section name as the document ID
-            const sectionDocRef = doc(db, 'Section_Data', 'Section_CCS', 'Sections', sectionName);
-    
-            // Use setDoc to set the document with the section name as the document ID
-            return await setDoc(sectionDocRef, {
-                section_name: sectionName,
+        if (remainingStudents > 0) {
+            numSections++;
+        }
+
+        const sectionNames = [];
+        const yearLevelMapping = { '1st Year': 1, '2nd Year': 2, '3rd Year': 3, '4th Year': 4 };
+        const programMapping = { 'BSCS': 'CS', 'BSIT': 'IT' };
+        const yearLevel = yearLevelMapping[yearLevelSelected];
+        const programShort = programMapping[program];
+
+        // Generate section names
+        for (let i = 0; i < numSections; i++) {
+            const sectionLetter = String.fromCharCode(65 + i); // A, B, C...
+            sectionNames.push(`${yearLevel}${programShort}-${sectionLetter}`);
+        }
+
+        // Add the sections to the database
+        for (const section of sectionNames) {
+            await addDoc(collection(db, 'Section_Data', 'Section_CCS', 'Sections'), {
                 program: program,
                 year_level: yearLevelSelected,
-                student_count: studentsInSection
+                section_name: section,
             });
-        });
-    
-        // Wait for all sections to be added
-        await Promise.all(sectionPromises);
-        alert('Success: Sections have been generated successfully!');  // Success message
+        }
+
+        // Update the table
         updateTable(sectionNames, program, yearLevelSelected);
-        document.getElementById('courseSectionForm').reset();  // Reset the form after submission
-    
+
+        // Display success dialog
+        const successDialog = document.getElementById('successDialog');
+        const successMessage = document.getElementById('successMessage');
+        successMessage.textContent = 'Success: Sections have been generated successfully!';
+        successDialog.showModal();
+
+        document.getElementById('successClose').onclick = () => {
+            successDialog.close();
+            document.getElementById('courseSectionForm').reset(); // Reset form
+        };
+
     } catch (error) {
+        console.error('Error:', error);
         alert('Error: Unable to generate sections. Please try again.');
-        console.error("Error adding sections: ", error);
     }
 });
+
 
 // Function to check if sections already exist for a given program and year level
 async function checkExistingSections(program, yearLevelSelected) {

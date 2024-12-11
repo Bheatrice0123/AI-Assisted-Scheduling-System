@@ -98,10 +98,39 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         // Confirm the action before adding the room
-        const confirmAdd = confirm('Do you want to add this room?');
-        if (!confirmAdd) {
-            return; // Exit if the user doesn't confirm
-        }
+async function confirmAddRoom() {
+    const confirmAddRoom = document.getElementById('confirmAddRoom');
+    const confirmOkButton = confirmAddRoom.querySelector('.ok-btn');
+    const confirmCancelButton = confirmAddRoom.querySelector('.close-btn');
+
+    return new Promise((resolve) => {
+        confirmAddRoom.showModal();
+
+        confirmOkButton.addEventListener(
+            'click',
+            () => {
+                confirmAddRoom.close();
+                resolve(true); // User confirmed
+            },
+            { once: true }
+        );
+
+        confirmCancelButton.addEventListener(
+            'click',
+            () => {
+                confirmAddRoom.close();
+                resolve(false); // User canceled
+            },
+            { once: true }
+        );
+    });
+}
+
+// Example usage:
+const confirmAdd = await confirmAddRoom();
+if (!confirmAdd) {
+    return; // Exit if the user doesn't confirm
+}
 
         // Create and append new row
         appendRoomToTable(campus, roomType, roomNumber);
@@ -257,6 +286,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
 
 
+        
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.onclick = async function() {
