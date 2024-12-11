@@ -161,18 +161,42 @@ function updateTable(sectionNames, program, yearLevelSelected) {
     });
 }
 
-// Function to delete a row from the table and Firestore
+// Function to handle deleting a section when the "Delete" button is clicked
 async function deleteRow(button, sectionName) {
-    if (!confirm(`Are you sure you want to delete section ${sectionName}?`)) {
-        return;  // If user cancels, stop the deletion
+    const deleteSection = document.getElementById('deleteSection');
+    const sectionNameSpan = document.getElementById('sectionName');
+    const deletingYes = document.getElementById('deletingYes');
+    const deletingCancel = document.getElementById('deletingCancel');
+
+    // Set the section name in the dialog
+    sectionNameSpan.textContent = sectionName;
+
+    // Show the dialog
+    deleteSection.showModal();
+
+    // Return a promise that resolves when the user makes a choice
+    const userConfirmed = await new Promise((resolve) => {
+        deletingYes.onclick = () => {
+            resolve(true); // User confirmed
+            deleteSection.close();
+        };
+
+        deletingCancel.onclick = () => {
+            resolve(false); // User canceled
+            deleteSection.close();
+        };
+    });
+
+    // If user cancels, stop the deletion
+    if (!userConfirmed) {
+        return;
     }
 
-    const row = button.parentNode.parentNode.parentNode;  // Get the row to remove
-
+    // Proceed with the deletion logic (delete from Firestore and remove the row)
     try {
         // Get the sections collection and fetch all documents
         const querySnapshot = await getDocs(collection(db, 'Section_Data', 'Section_CCS', 'Sections'));
-        
+
         // Loop through the documents to find the one with the matching section name
         querySnapshot.forEach(async (docSnapshot) => {
             if (docSnapshot.data().section_name === sectionName) {
@@ -182,11 +206,22 @@ async function deleteRow(button, sectionName) {
                 console.log(`Section ${sectionName} deleted successfully from Firestore.`);
 
                 // Remove the corresponding row from the table
+                const row = button.closest('tr'); // Get the row to remove
                 row.remove();
-                alert(`Success: Section ${sectionName} has been deleted.`);
+
+                // Display success message
+                const successDialog = document.getElementById('deletionDialog');
+                const deletionMessage = document.getElementById('deletionMessage');
+                deletionMessage.textContent = `Section ${sectionName} has been successfully deleted.`;
+                successDialog.showModal();
+
+                // Close success dialog on button click
+                document.getElementById('deletionClose').onclick = () => {
+                    successDialog.close();
+                };
             }
         });
-        
+
     } catch (error) {
         alert(`Error: Unable to delete section ${sectionName}.`);
         console.error("Error finding or deleting section: ", error);
