@@ -91,11 +91,9 @@ async function fetchTempCurriculumData() {
             transformAndDisplayTempCurriculumData(data);  // Display the data in the table
         } else {
             alert("No curriculum data found.");
-            console.log("No curriculum data found in Firestore."); // Debug
         }
     } catch (error) {
         alert("Error fetching curriculum data.");
-        console.error("Error fetching curriculum data:", error);
     }
 }
 
@@ -244,27 +242,65 @@ async function confirmAndSaveCurriculum() {
         return;
     }
 
-    // Confirmation dialog
-    if (confirm("Are you sure you want to save this curriculum?")) {
-        const newDocId = `${program.replace(/\s+/g, '')}Curriculum${curriculumYear}`;
-        try {
-            const programCollectionRef = collection(db, "mainCurriculum", "mainCurriculum_CCS", program);
-            const curriculumDocRef = doc(programCollectionRef, newDocId);
-            await setDoc(curriculumDocRef, { csvRows: curriculumData });
+   // Get the confirmation dialog and buttons//CONFIRM CURRICULUM DATA DIALOG
+const confirmDialog = document.getElementById("confirm");
+const confirmOkButton = confirmDialog.querySelector(".ok-btn");
+const cancelButton = confirmDialog.querySelector(".close-btn");
 
-            alert(`Curriculum confirmed and saved successfully as ${newDocId} in ${program}!`);
+// Get the success confirmation dialog and OK button//CONFIRM-OK MODAL
+const confirmOkDialog = document.getElementById("confirm-ok");
+const confirmOkDialogButton = confirmOkDialog.querySelector(".ok-btn");
 
-            // Clear fields in tempCurriculum_CCS (temporary storage)
-            const tempDocRef = doc(db, "tempCurriculum", "tempCurriculum_CCS");
-            await updateDoc(tempDocRef, { csvRows: [] });
-            clearTable();
-            uploadCSVToS3();
-            fetchTempCurriculumData();
-        } catch (error) {
-            alert("Error saving curriculum.");
-            console.error("Error saving curriculum data to Firestore:", error);
-        }
+// Function to show the confirmation dialog
+function showConfirmationDialog() {
+    confirmDialog.showModal();
+}
+
+// Show the confirmation dialog
+showConfirmationDialog();
+
+// Handle the YES, CONFIRM button click
+confirmOkButton.addEventListener("click", async () => {
+    const program = "YourProgramHere"; // Replace with actual value
+    const curriculumYear = 2024; // Replace with actual value
+    const curriculumData = {}; // Replace with your actual data
+
+    const newDocId = `${program.replace(/\s+/g, '')}Curriculum${curriculumYear}`;
+    try {
+        const programCollectionRef = collection(db, "mainCurriculum", "mainCurriculum_CCS", program);
+        const curriculumDocRef = doc(programCollectionRef, newDocId);
+        await setDoc(curriculumDocRef, { csvRows: curriculumData });
+
+        // Close the confirmation dialog
+        confirmDialog.close();
+
+        // Show success confirmation dialog
+        confirmOkDialog.showModal();
+        
+        // Clear fields in tempCurriculum_CCS (temporary storage)
+        const tempDocRef = doc(db, "tempCurriculum", "tempCurriculum_CCS");
+        await updateDoc(tempDocRef, { csvRows: [] });
+        clearTable();
+        uploadCSVToS3();
+        fetchTempCurriculumData();
+    } catch (error) {
+        alert("Error saving curriculum.");
+        console.error("Error saving curriculum data to Firestore:", error);
     }
+});
+
+// Handle the CANCEL button click
+cancelButton.addEventListener("click", () => {
+    // Close the confirmation dialog
+    confirmDialog.close();
+});
+
+// Handle the OK button click in the success dialog
+confirmOkDialogButton.addEventListener("click", () => {
+    // Close the success confirmation dialog
+    confirmOkDialog.close();
+
+});
 }
 
 // Function to get the next document ID
