@@ -2,6 +2,23 @@ function login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
+    // Check if the error message element already exists
+    let errorMessage = document.getElementById('error-message');
+    if (!errorMessage) {
+        // Create the error message element if it doesn't exist
+        errorMessage = document.createElement('div');
+        errorMessage.id = 'error-message';
+        errorMessage.style.color = 'red';
+        errorMessage.style.marginTop = '-19px';
+        errorMessage.style.fontFamily = 'Arial, sans-serif';
+        errorMessage.style.fontSize = '17px';
+        errorMessage.style.textAlign = 'center';
+        errorMessage.style.opacity = '1'; // Fully visible
+        errorMessage.style.transition = 'opacity 1s ease'; // Smooth fade-out effect
+        document.querySelector('.login-container').appendChild(errorMessage);
+    }
+
+    // Logic for login validation
     if (email === 'ccs@gmail.com' && password === '12345') {
         window.location.href = 'CCS_CURRICULUM.html'; // Redirect to CCS_COURSE.html for DEAN 1
     } else if (email === 'dean.cas@pnc.edu.ph' && password === 'casdangalngbayan') {
@@ -21,7 +38,14 @@ function login() {
     } else if (email === '00002@gmail.com' && password === '12345') {
         window.location.href = 'CCS_PROF_F.HABLANIDA.html'; // Redirect to CBAA.html for Prof 2
     } else {
-        alert('Invalid email or password');
+        // Set the error message text
+        errorMessage.textContent = 'Invalid email or password. Please try again.';
+        errorMessage.style.opacity = '3'; // Ensure message is fully visible
+
+        // Fade out the error message after 3 seconds
+        setTimeout(() => {
+            errorMessage.style.opacity = '0'; // Start fading
+        }, 3000);
     }
 
     return false; // Prevent form submission
