@@ -14,6 +14,7 @@
     <!-- Include PapaParse for CSV Parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
     
@@ -48,7 +49,7 @@
         <!-- Form and Table Section -->
         <div class="form-and-table-container">
             <div class="curriculum-header">
-                <h2>CCS - Curriculum Management</h2>
+                <h2>CCS - Curriculum Management</h2>             
             </div>
 
             <!-- Upload Form -->
@@ -88,6 +89,7 @@
                 </form>
                 <div id="status"></div>
             </div>
+            
 
             <!-- Container to display the uploaded data -->
             <h2>Confirm Curriculum Data</h2>
@@ -118,7 +120,7 @@
         </div>
     </main>
 
-    <dialog id="upload"><!--Dialog Modal for btn Upload File Success-->
+    <dialog id="upload"><!--Dialog Modal for Upload File-->
         <h1>Curriculum File Upload</h1>
         <p>File uploaded and displayed successfully!</p>
         <div class="controls">
@@ -133,7 +135,7 @@
         <h1>Delete File Upload</h1>
         <p>Are you sure you want to delete the displayed curriculum data? This action cannot be undone.</p>
         <div class="controls">
-            <button class="ok-btn">YES</button>
+            <button class="ok-btn">YES, DELETE</button>
             <button class="close-btn">CANCEL</button>
         </div>
     </dialog>
@@ -146,7 +148,24 @@
         </div>
     </dialog>
 
-    <dialog id="sethours"><!--Dialog Modal for Sethours is 0-->
+    <dialog id="confirm"><!--Dialog Modal for Confirm Curriculum-->
+        <h1>Confirm Curriculum Data</h1>
+        <p>Are you sure you want to save this curriculum?</p>
+        <div class="controls">
+            <button class="ok-btn">YES, CONFIRM</button>
+            <button class="close-btn">CANCEL</button>
+        </div>
+    </dialog>
+
+    <dialog id="confirm-ok"><!--Dialog Modal for Confirm Curriculum OK-->
+        <h1>Curriculum Confirm Data</h1>
+        <p>Curriculum confirmed and saved successfully.</p>
+        <div class="controls">
+            <button class="ok-btn">OK</button>
+        </div>
+    </dialog>
+
+    <dialog id="sethours"><!--Dialog Modal for Upload File-->
         <h1>Curriculum File Upload</h1>
         <p>Some subjects have their Set Hours still set to 0. Please update them before confirming.</p>
         <div class="controls">
@@ -154,6 +173,9 @@
         </div>
     </dialog>
 
+
+
+  
     <!-- Link to the external JavaScript file -->
     <script type="module" src="CCS_CURRICULUM.js"></script>
 </body>
