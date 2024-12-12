@@ -9,9 +9,9 @@ function login() {
         errorMessage = document.createElement('div');
         errorMessage.id = 'error-message';
         errorMessage.style.color = 'red';
-        errorMessage.style.marginTop = '-17px';
+        errorMessage.style.marginTop = '-20px';
         errorMessage.style.fontFamily = 'Arial, sans-serif';
-        errorMessage.style.fontSize = '17px';
+        errorMessage.style.fontSize = '18px';
         errorMessage.style.textAlign = 'center';
         errorMessage.style.opacity = '1'; // Fully visible
         errorMessage.style.transition = 'opacity 1s ease'; // Smooth fade-out effect
